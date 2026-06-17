@@ -1,29 +1,45 @@
 from app import app, db
-from models.job_application import JobApplication
+from models.user import User
+from models.job_application import (
+    JobApplication,
+    Status
+)
 
 with app.app_context():
-    # Optional: Clear existing records
-    JobApplication.query.delete()
+
+    user = User(
+        username="darshan",
+        email="darshan@example.com"
+    )
+
+    db.session.add(user)
+    db.session.commit()
 
     jobs = [
         JobApplication(
             company="Google",
             role="SWE Intern",
-            status="Applied"
+            status=Status.APPLIED,
+            notes="Applied via careers page",
+            user_id=user.id
         ),
+
         JobApplication(
             company="Amazon",
             role="Backend Intern",
-            status="Interview"
+            status=Status.INTERVIEW,
+            user_id=user.id
         ),
+
         JobApplication(
             company="Microsoft",
             role="SDE Intern",
-            status="Rejected"
+            status=Status.REJECTED,
+            user_id=user.id
         )
     ]
 
     db.session.add_all(jobs)
     db.session.commit()
 
-    print(f"Seeded {len(jobs)} job applications successfully!")
+    print("Seed complete!")
