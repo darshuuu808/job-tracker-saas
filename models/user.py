@@ -1,4 +1,5 @@
-from app import db
+from extensions import db
+
 
 class User(db.Model):
     __tablename__ = "users"
@@ -18,10 +19,4 @@ class User(db.Model):
         db.String(120),
         unique=True,
         nullable=False
-    )
-
-    applications = db.relationship(
-        "JobApplication",
-        backref="user",
-        lazy=True
     )

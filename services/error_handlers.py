@@ -9,7 +9,7 @@ def register_error_handlers(app):
             {
                 "error": "Bad Request",
                 "details": str(error),
-                "status_code": 400,
+                "status_code": 400
             }
         ), 400
 
@@ -19,16 +19,16 @@ def register_error_handlers(app):
             {
                 "error": "Not Found",
                 "details": str(error),
-                "status_code": 404,
+                "status_code": 404
             }
         ), 404
 
     @app.errorhandler(500)
-    def internal_error(error):
+    def internal_server_error(error):
         return jsonify(
             {
                 "error": "Internal Server Error",
                 "details": str(error),
-                "status_code": 500,
+                "status_code": 500
             }
         ), 500

@@ -1,4 +1,4 @@
-from app import db
+from extensions import db
 from datetime import datetime
 import enum
 
@@ -40,9 +40,10 @@ class JobApplication(db.Model):
         default=datetime.utcnow
     )
 
-    notes = db.Column(db.Text)
+    notes = db.Column(
+        db.Text
+    )
 
-    user_id = db.Column(
-        db.Integer,
-        db.ForeignKey("users.id")
+    resume_path = db.Column(
+        db.String(255)
     )

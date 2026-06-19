@@ -1,12 +1,11 @@
-from app import db
+import os
 
-from models.user import User
+from extensions import db
+
 from models.job_application import (
     JobApplication,
     Status
 )
-
-from models.job_application import JobApplication
 
 from services.exceptions import (
     ApplicationNotFound,
@@ -19,17 +18,34 @@ from services.logger import logger
 class ApplicationService:
 
     @staticmethod
+    def list_applications():
+        return JobApplication.query.all()
+
+    @staticmethod
+    def get_application(application_id):
+
+        job = JobApplication.query.get(
+            application_id
+        )
+
+        if not job:
+            raise ApplicationNotFound(
+                f"Application {application_id} not found"
+            )
+
+        return job
+
+    @staticmethod
     def create_application(
-        company,
-        role,
-        status,
-        notes=None,
-        user_id=None
-    ):
+            company,
+            role,
+            status,
+            notes=None,
+            resume_path=None):
+
         existing = JobApplication.query.filter_by(
             company=company,
-            role=role,
-            user_id=user_id
+            role=role
         ).first()
 
         if existing:
@@ -42,47 +58,22 @@ class ApplicationService:
             role=role,
             status=status,
             notes=notes,
-            user_id=user_id
+            resume_path=resume_path
         )
 
         db.session.add(job)
         db.session.commit()
 
         logger.info(
-            f"Created application: {company} - {role}"
+            f"Created application for {company}"
         )
 
         return job
 
     @staticmethod
-    def get_application(application_id):
-
-        job = JobApplication.query.get(application_id)
-
-        if not job:
-            raise ApplicationNotFound(
-                f"Application {application_id} not found"
-            )
-
-        return job
-
-    @staticmethod
-    def list_applications():
-
-        return JobApplication.query.all()
-
-    @staticmethod
-    def get_applications_by_status(status):
-
-        return JobApplication.query.filter_by(
-            status=status
-        ).all()
-
-    @staticmethod
     def update_application(
-        application_id,
-        **kwargs
-    ):
+            application_id,
+            **kwargs):
 
         job = ApplicationService.get_application(
             application_id
@@ -104,15 +95,29 @@ class ApplicationService:
     @staticmethod
     def delete_application(application_id):
 
-        job = ApplicationService.get_application(
-            application_id
+        application = (
+            ApplicationService.get_application(
+                application_id
+            )
         )
 
-        db.session.delete(job)
+        if (
+            application.resume_path
+            and
+            os.path.exists(
+                application.resume_path
+            )
+        ):
+            os.remove(
+                application.resume_path
+            )
+
+        db.session.delete(
+            application
+        )
+
         db.session.commit()
 
         logger.info(
             f"Deleted application {application_id}"
         )
-
-        return True
