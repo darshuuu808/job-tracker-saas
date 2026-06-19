@@ -4,6 +4,9 @@ from flask_migrate import Migrate
 
 from config import Config
 
+from services.error_handlers import register_error_handlers
+from api.application_routes import application_bp
+
 # Initialize extensions
 db = SQLAlchemy()
 migrate = Migrate()
@@ -18,11 +21,13 @@ app.config.from_object(Config)
 db.init_app(app)
 migrate.init_app(app, db)
 
+register_error_handlers(app)
+
+app.register_blueprint(application_bp)
 
 @app.route("/")
 def home():
-    return "Day 3 Service Layer Running!"
-
+    return "Day 4 Validation Running!"
 
 if __name__ == "__main__":
     app.run(debug=True)

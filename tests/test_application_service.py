@@ -1,4 +1,7 @@
+import uuid
+
 from app import app
+
 from services.application_service import (
     ApplicationService
 )
@@ -29,20 +32,26 @@ def test_create_application():
 
     with app.app_context():
 
+        company = f"Tesla_{uuid.uuid4()}"
+
         application = ApplicationService.create_application(
-            company="Tesla_Test_1",
+            company=company,
             role="Software Engineer Intern",
             status=Status.APPLIED
         )
 
-        assert application.company == "Tesla_Test_1"
+        assert application is not None
+        assert application.company == company
+
 
 def test_update_application():
 
     with app.app_context():
 
+        company = f"Adobe_{uuid.uuid4()}"
+
         application = ApplicationService.create_application(
-            company="Adobe_Test_1",
+            company=company,
             role="Backend Intern",
             status=Status.APPLIED
         )
@@ -54,12 +63,15 @@ def test_update_application():
 
         assert updated.status == Status.INTERVIEW
 
+
 def test_delete_application():
 
     with app.app_context():
 
+        company = f"Oracle_{uuid.uuid4()}"
+
         application = ApplicationService.create_application(
-            company="Oracle",
+            company=company,
             role="Java Intern",
             status=Status.APPLIED
         )
@@ -70,9 +82,7 @@ def test_delete_application():
             application_id
         )
 
-        applications = (
-            ApplicationService.list_applications()
-        )
+        applications = ApplicationService.list_applications()
 
         ids = [app.id for app in applications]
 
