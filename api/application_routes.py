@@ -28,9 +28,6 @@ application_bp = Blueprint(
 )
 
 
-# ------------------------------------
-# Day 4 - Validation Endpoint
-# ------------------------------------
 @application_bp.route(
     "/api/applications",
     methods=["POST"]
@@ -63,9 +60,6 @@ def create_application():
         ), 400
 
 
-# ------------------------------------
-# Day 5 - Upload Resume Only
-# ------------------------------------
 @application_bp.route(
     "/api/upload",
     methods=["POST"]
@@ -102,9 +96,6 @@ def upload_resume():
     )
 
 
-# ------------------------------------
-# Day 5 - Serve Uploaded Files
-# ------------------------------------
 @application_bp.route(
     "/files/<filename>",
     methods=["GET"]
@@ -117,9 +108,6 @@ def get_file(filename):
     )
 
 
-# ------------------------------------
-# Day 5 - Extract PDF Text
-# ------------------------------------
 @application_bp.route(
     "/api/extract/<filename>",
     methods=["GET"]
@@ -150,9 +138,6 @@ def extract_resume_text(filename):
         ), 500
 
 
-# ------------------------------------
-# Day 5 - Create Application + Resume
-# ------------------------------------
 @application_bp.route(
     "/api/application-with-resume",
     methods=["POST"]
@@ -219,6 +204,7 @@ def create_application_with_resume():
             "resume_path": application.resume_path
         }
     ), 201
+
 
 @application_bp.route("/test-db")
 def test_db():
