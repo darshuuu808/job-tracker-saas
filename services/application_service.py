@@ -18,22 +18,32 @@ from services.logger import logger
 class ApplicationService:
 
     @staticmethod
-    def list_applications():
-        return JobApplication.query.all()
+    def list_applications(
+            page=1,
+            per_page=10):
+
+        return JobApplication.query.paginate(
+            page=page,
+            per_page=per_page,
+            error_out=False
+        )
 
     @staticmethod
-    def get_application(application_id):
+    def get_application(
+            application_id):
 
-        job = JobApplication.query.get(
+        application = db.session.get(
+            JobApplication,
             application_id
         )
 
-        if not job:
+        if not application:
+
             raise ApplicationNotFound(
                 f"Application {application_id} not found"
             )
 
-        return job
+        return application
 
     @staticmethod
     def create_application(
@@ -49,11 +59,12 @@ class ApplicationService:
         ).first()
 
         if existing:
+
             raise DuplicateApplication(
                 f"Application already exists for {company} - {role}"
             )
 
-        job = JobApplication(
+        application = JobApplication(
             company=company,
             role=role,
             status=status,
@@ -61,39 +72,48 @@ class ApplicationService:
             resume_path=resume_path
         )
 
-        db.session.add(job)
+        db.session.add(
+            application
+        )
+
         db.session.commit()
 
         logger.info(
             f"Created application for {company}"
         )
 
-        return job
+        return application
 
     @staticmethod
     def update_application(
             application_id,
             **kwargs):
 
-        job = ApplicationService.get_application(
-            application_id
+        application = (
+            ApplicationService.get_application(
+                application_id
+            )
         )
 
         for key, value in kwargs.items():
 
-            if hasattr(job, key):
-                setattr(job, key, value)
+            if hasattr(
+                application,
+                key
+            ):
+                setattr(
+                    application,
+                    key,
+                    value
+                )
 
         db.session.commit()
 
-        logger.info(
-            f"Updated application {application_id}"
-        )
-
-        return job
+        return application
 
     @staticmethod
-    def delete_application(application_id):
+    def delete_application(
+            application_id):
 
         application = (
             ApplicationService.get_application(
@@ -108,6 +128,7 @@ class ApplicationService:
                 application.resume_path
             )
         ):
+
             os.remove(
                 application.resume_path
             )
@@ -118,6 +139,19 @@ class ApplicationService:
 
         db.session.commit()
 
-        logger.info(
-            f"Deleted application {application_id}"
-        )
+    @staticmethod
+    def get_stats():
+
+        stats = {}
+
+        for status in Status:
+
+            stats[
+                status.value
+            ] = (
+                JobApplication.query.filter_by(
+                    status=status
+                ).count()
+            )
+
+        return stats
