@@ -13,7 +13,8 @@ from extensions import (
     db,
     migrate,
     jwt,
-    cache
+    cache,
+    mail
 )
 
 app = Flask(__name__)
@@ -32,6 +33,8 @@ migrate.init_app(
 jwt.init_app(app)
 
 cache.init_app(app)
+
+mail.init_app(app)
 
 with app.app_context():
 
@@ -78,6 +81,10 @@ from api.jobs_routes import (
     jobs_bp
 )
 
+from api.email_routes import (
+    email_bp
+)
+
 app.register_blueprint(
     application_bp
 )
@@ -90,11 +97,17 @@ app.register_blueprint(
     jobs_bp
 )
 
+app.register_blueprint(
+    email_bp
+)
+
+# -----------------------------
+# Swagger Configuration
+# -----------------------------
+
 SWAGGER_URL = "/docs"
 
-API_URL = (
-    "/swagger/swagger.json"
-)
+API_URL = "/swagger/swagger.json"
 
 swaggerui_blueprint = (
     get_swaggerui_blueprint(
@@ -132,7 +145,50 @@ def home():
     )
 
 
+@app.route("/mail-debug")
+def mail_debug():
+
+    return {
+        "MAIL_SERVER": app.config["MAIL_SERVER"],
+        "MAIL_PORT": app.config["MAIL_PORT"],
+        "MAIL_USERNAME": app.config["MAIL_USERNAME"],
+        "MAIL_DEFAULT_SENDER": app.config["MAIL_DEFAULT_SENDER"],
+        "MAIL_USE_TLS": app.config["MAIL_USE_TLS"],
+        "MAIL_USE_SSL": app.config["MAIL_USE_SSL"]
+    }
+
+
+@app.route("/mail-password")
+def mail_password():
+
+    return {
+        "password_length": len(app.config["MAIL_PASSWORD"]),
+        "starts_with": app.config["MAIL_PASSWORD"][:4]
+    }
+
+
+@app.route("/routes")
+def routes():
+
+    return {
+        "routes": sorted(
+            [
+                str(rule)
+                for rule in app.url_map.iter_rules()
+            ]
+        )
+    }
+
+
 if __name__ == "__main__":
+
+    from scheduler import (
+        start_scheduler
+    )
+
+    start_scheduler(
+        app
+    )
 
     app.run(
         debug=False,

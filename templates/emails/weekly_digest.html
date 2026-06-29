@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Weekly Job Digest</title>
+
+</head>
+
+<body>
+
+    <h2>Weekly Job Applications</h2>
+
+    <table
+        border="1"
+        cellpadding="8"
+        cellspacing="0"
+    >
+
+        <tr>
+
+            <th>Company</th>
+
+            <th>Role</th>
+
+            <th>Status</th>
+
+        </tr>
+
+        {% for app in applications %}
+
+        <tr>
+
+            <td>{{ app.company }}</td>
+
+            <td>{{ app.role }}</td>
+
+            <td>{{ app.status.value }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</body>
+
+</html>
