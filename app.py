@@ -69,6 +69,10 @@ register_error_handlers(
     app
 )
 
+# -----------------------------
+# Blueprints
+# -----------------------------
+
 from api.application_routes import (
     application_bp
 )
@@ -85,6 +89,10 @@ from api.email_routes import (
     email_bp
 )
 
+from api.csv_routes import (
+    csv_bp
+)
+
 app.register_blueprint(
     application_bp
 )
@@ -99,6 +107,10 @@ app.register_blueprint(
 
 app.register_blueprint(
     email_bp
+)
+
+app.register_blueprint(
+    csv_bp
 )
 
 # -----------------------------
@@ -144,6 +156,10 @@ def home():
         "Job Tracker SaaS Running!"
     )
 
+
+# -----------------------------
+# Debug Routes
+# -----------------------------
 
 @app.route("/mail-debug")
 def mail_debug():

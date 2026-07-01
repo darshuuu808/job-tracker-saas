@@ -31,7 +31,7 @@ def send_weekly_digest():
 
         EmailService.send_weekly_digest(
 
-            recipient="YOUR_MAILTRAP_EMAIL",
+            recipient="darshan160406@gmail.com",
 
             applications=applications
         )
@@ -55,7 +55,7 @@ def send_interview_reminders():
 
             EmailService.send_interview_reminder(
 
-                recipient="YOUR_MAILTRAP_EMAIL",
+                recipient="darshan160406@gmail.com",
 
                 application=application
             )
