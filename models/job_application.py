@@ -1,17 +1,24 @@
-from extensions import db
 from datetime import datetime
 import enum
 
+from extensions import db
+
 
 class Status(enum.Enum):
+
     APPLIED = "Applied"
+
     PHONE_SCREEN = "Phone Screen"
+
     INTERVIEW = "Interview"
+
     OFFER = "Offer"
+
     REJECTED = "Rejected"
 
 
 class JobApplication(db.Model):
+
     __tablename__ = "job_applications"
 
     id = db.Column(
@@ -46,4 +53,10 @@ class JobApplication(db.Model):
 
     resume_path = db.Column(
         db.String(255)
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey("users.id"),
+        nullable=True
     )

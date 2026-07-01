@@ -109,6 +109,10 @@ from api.analytics_routes import (
     analytics_bp
 )
 
+from api.admin_routes import (
+    admin_bp
+)
+
 app.register_blueprint(
     application_bp
 )
@@ -131,6 +135,10 @@ app.register_blueprint(
 
 app.register_blueprint(
     analytics_bp
+)
+
+app.register_blueprint(
+    admin_bp
 )
 
 # -----------------------------

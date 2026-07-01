@@ -1,9 +1,18 @@
+from enum import Enum
+
 from extensions import db
 
 from werkzeug.security import (
     generate_password_hash,
     check_password_hash
 )
+
+
+class Role(Enum):
+
+    USER = "USER"
+
+    ADMIN = "ADMIN"
 
 
 class User(db.Model):
@@ -32,6 +41,19 @@ class User(db.Model):
         nullable=False
     )
 
+    role = db.Column(
+        db.Enum(Role),
+        nullable=False,
+        default=Role.USER
+    )
+
+    applications = db.relationship(
+        "JobApplication",
+        backref="user",
+        cascade="all, delete-orphan",
+        lazy=True
+    )
+
     def set_password(
             self,
             password):
@@ -51,4 +73,10 @@ class User(db.Model):
                 self.password_hash,
                 password
             )
+        )
+
+    def __repr__(self):
+
+        return (
+            f"<User {self.username}>"
         )
