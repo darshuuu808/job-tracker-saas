@@ -23,6 +23,10 @@ app.config.from_object(
     Config
 )
 
+# -----------------------------
+# Initialize Extensions
+# -----------------------------
+
 db.init_app(app)
 
 migrate.init_app(
@@ -45,6 +49,10 @@ with app.app_context():
     )
 
 
+# -----------------------------
+# JWT Blocklist
+# -----------------------------
+
 @jwt.token_in_blocklist_loader
 def check_if_token_revoked(
         jwt_header,
@@ -60,6 +68,10 @@ def check_if_token_revoked(
 
     return token is not None
 
+
+# -----------------------------
+# Global Error Handlers
+# -----------------------------
 
 from services.error_handlers import (
     register_error_handlers
@@ -93,6 +105,10 @@ from api.csv_routes import (
     csv_bp
 )
 
+from api.analytics_routes import (
+    analytics_bp
+)
+
 app.register_blueprint(
     application_bp
 )
@@ -111,6 +127,10 @@ app.register_blueprint(
 
 app.register_blueprint(
     csv_bp
+)
+
+app.register_blueprint(
+    analytics_bp
 )
 
 # -----------------------------
@@ -149,6 +169,10 @@ def swagger_json():
     )
 
 
+# -----------------------------
+# Home
+# -----------------------------
+
 @app.route("/")
 def home():
 
@@ -165,12 +189,25 @@ def home():
 def mail_debug():
 
     return {
-        "MAIL_SERVER": app.config["MAIL_SERVER"],
-        "MAIL_PORT": app.config["MAIL_PORT"],
-        "MAIL_USERNAME": app.config["MAIL_USERNAME"],
-        "MAIL_DEFAULT_SENDER": app.config["MAIL_DEFAULT_SENDER"],
-        "MAIL_USE_TLS": app.config["MAIL_USE_TLS"],
-        "MAIL_USE_SSL": app.config["MAIL_USE_SSL"]
+
+        "MAIL_SERVER":
+        app.config["MAIL_SERVER"],
+
+        "MAIL_PORT":
+        app.config["MAIL_PORT"],
+
+        "MAIL_USERNAME":
+        app.config["MAIL_USERNAME"],
+
+        "MAIL_DEFAULT_SENDER":
+        app.config["MAIL_DEFAULT_SENDER"],
+
+        "MAIL_USE_TLS":
+        app.config["MAIL_USE_TLS"],
+
+        "MAIL_USE_SSL":
+        app.config["MAIL_USE_SSL"]
+
     }
 
 
@@ -178,8 +215,15 @@ def mail_debug():
 def mail_password():
 
     return {
-        "password_length": len(app.config["MAIL_PASSWORD"]),
-        "starts_with": app.config["MAIL_PASSWORD"][:4]
+
+        "password_length":
+        len(
+            app.config["MAIL_PASSWORD"]
+        ),
+
+        "starts_with":
+        app.config["MAIL_PASSWORD"][:4]
+
     }
 
 
@@ -187,14 +231,25 @@ def mail_password():
 def routes():
 
     return {
+
         "routes": sorted(
+
             [
+
                 str(rule)
+
                 for rule in app.url_map.iter_rules()
+
             ]
+
         )
+
     }
 
+
+# -----------------------------
+# Main
+# -----------------------------
 
 if __name__ == "__main__":
 
@@ -207,6 +262,9 @@ if __name__ == "__main__":
     )
 
     app.run(
+
         debug=False,
+
         use_reloader=False
+
     )

@@ -91,4 +91,4 @@ def import_csv():
             {
                 "error": str(e)
             }
-        ), 500done
+        ), 500
