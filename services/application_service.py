@@ -14,6 +14,14 @@ from services.exceptions import (
 
 from services.logger import logger
 
+from services.webhook_service import (
+    WebhookService
+)
+
+from services.slack_service import (
+    SlackService
+)
+
 
 class ApplicationService:
 
@@ -65,11 +73,17 @@ class ApplicationService:
             )
 
         application = JobApplication(
+
             company=company,
+
             role=role,
+
             status=status,
+
             notes=notes,
+
             resume_path=resume_path
+
         )
 
         db.session.add(
@@ -80,6 +94,24 @@ class ApplicationService:
 
         logger.info(
             f"Created application for {company}"
+        )
+
+        payload = {
+
+            "event": "application_created",
+
+            "application_id": application.id,
+
+            "company": application.company,
+
+            "role": application.role,
+
+            "status": application.status.value
+
+        }
+
+        WebhookService.send_webhook(
+            payload
         )
 
         return application
@@ -95,12 +127,26 @@ class ApplicationService:
             )
         )
 
+        old_status = application.status
+
         for key, value in kwargs.items():
+
+            if key == "status":
+
+                if isinstance(
+                    value,
+                    str
+                ):
+
+                    value = Status[
+                        value.upper()
+                    ]
 
             if hasattr(
                 application,
                 key
             ):
+
                 setattr(
                     application,
                     key,
@@ -108,6 +154,38 @@ class ApplicationService:
                 )
 
         db.session.commit()
+
+        if old_status != application.status:
+
+            payload = {
+
+                "event": "status_updated",
+
+                "application_id": application.id,
+
+                "company": application.company,
+
+                "role": application.role,
+
+                "old_status": old_status.value,
+
+                "new_status": application.status.value
+
+            }
+
+            WebhookService.send_webhook(
+                payload
+            )
+
+            if application.status == Status.OFFER:
+
+                SlackService.send_offer_notification(
+                    application
+                )
+
+        logger.info(
+            f"Updated application {application.id}"
+        )
 
         return application
 
@@ -122,11 +200,15 @@ class ApplicationService:
         )
 
         if (
+
             application.resume_path
+
             and
+
             os.path.exists(
                 application.resume_path
             )
+
         ):
 
             os.remove(
@@ -139,6 +221,10 @@ class ApplicationService:
 
         db.session.commit()
 
+        logger.info(
+            f"Deleted application {application.id}"
+        )
+
     @staticmethod
     def get_stats():
 
@@ -149,9 +235,11 @@ class ApplicationService:
             stats[
                 status.value
             ] = (
+
                 JobApplication.query.filter_by(
                     status=status
                 ).count()
+
             )
 
         return stats
