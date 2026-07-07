@@ -7,11 +7,17 @@ from flask_swagger_ui import (
     get_swaggerui_blueprint
 )
 
-from config import Config
-
 from flask_cors import (
     CORS
 )
+
+from flask_talisman import (
+    Talisman
+)
+
+import os
+
+from config import Config
 
 from extensions import (
     db,
@@ -24,13 +30,22 @@ from extensions import (
 
 app = Flask(__name__)
 
-from flask_talisman import (
-    Talisman
-)
-
 app.config.from_object(
     Config
 )
+
+# -----------------------------
+# Upload Folder
+# -----------------------------
+
+os.makedirs(
+    app.config["UPLOAD_FOLDER"],
+    exist_ok=True
+)
+
+# -----------------------------
+# Flask Security
+# -----------------------------
 
 app.config[
     "RATELIMIT_HEADERS_ENABLED"
@@ -86,7 +101,6 @@ with app.app_context():
     from models.token_blocklist import (
         TokenBlocklist
     )
-
 
 # -----------------------------
 # JWT Blocklist
@@ -226,7 +240,6 @@ def home():
     return (
         "Job Tracker SaaS Running!"
     )
-
 
 # -----------------------------
 # Debug Routes
