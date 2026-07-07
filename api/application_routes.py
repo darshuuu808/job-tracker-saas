@@ -4,6 +4,10 @@ from flask import (
     jsonify
 )
 
+from extensions import (
+    limiter
+)
+
 from models.job_application import (
     Status
 )
@@ -26,6 +30,9 @@ application_bp = Blueprint(
 @application_bp.route(
     "/api/applications",
     methods=["GET"]
+)
+@limiter.limit(
+    "100 per minute"
 )
 def list_applications():
 
@@ -90,6 +97,9 @@ def list_applications():
     "/api/applications/<int:application_id>",
     methods=["GET"]
 )
+@limiter.limit(
+    "100 per minute"
+)
 def get_application(
         application_id):
 
@@ -137,6 +147,9 @@ def get_application(
     "/api/applications",
     methods=["POST"]
 )
+@limiter.limit(
+    "30 per minute"
+)
 def create_application():
 
     data = request.get_json()
@@ -178,6 +191,9 @@ def create_application():
     "/api/applications/<int:application_id>",
     methods=["PATCH"]
 )
+@limiter.limit(
+    "60 per minute"
+)
 def update_application(
         application_id):
 
@@ -205,6 +221,9 @@ def update_application(
     "/api/applications/<int:application_id>",
     methods=["DELETE"]
 )
+@limiter.limit(
+    "20 per minute"
+)
 def delete_application(
         application_id):
 
@@ -223,6 +242,9 @@ def delete_application(
 @application_bp.route(
     "/api/applications/stats",
     methods=["GET"]
+)
+@limiter.limit(
+    "30 per minute"
 )
 def application_stats():
 

@@ -1,5 +1,7 @@
 import os
 
+import bleach
+
 from extensions import db
 
 from models.job_application import (
@@ -60,6 +62,33 @@ class ApplicationService:
             status,
             notes=None,
             resume_path=None):
+
+        company = bleach.clean(
+            company,
+            tags=[],
+            attributes={},
+            strip=True
+        )
+
+        role = bleach.clean(
+            role,
+            tags=[],
+            attributes={},
+            strip=True
+        )
+
+        if notes:
+
+            notes = bleach.clean(
+                notes,
+                tags=[],
+                attributes={},
+                strip=True
+            )
+
+        print("Sanitized company:", company)
+        print("Sanitized role:", role)
+        print("Sanitized notes:", notes)
 
         existing = JobApplication.query.filter_by(
             company=company,
@@ -141,6 +170,21 @@ class ApplicationService:
                     value = Status[
                         value.upper()
                     ]
+
+            elif key in [
+                "company",
+                "role",
+                "notes"
+            ]:
+
+                if value:
+
+                    value = bleach.clean(
+                        value,
+                        tags=[],
+                        attributes={},
+                        strip=True
+                    )
 
             if hasattr(
                 application,

@@ -9,18 +9,53 @@ from flask_swagger_ui import (
 
 from config import Config
 
+from flask_cors import (
+    CORS
+)
+
 from extensions import (
     db,
     migrate,
     jwt,
     cache,
-    mail
+    mail,
+    limiter
 )
 
 app = Flask(__name__)
 
+from flask_talisman import (
+    Talisman
+)
+
 app.config.from_object(
     Config
+)
+
+app.config[
+    "RATELIMIT_HEADERS_ENABLED"
+] = True
+
+Talisman(
+    app,
+    content_security_policy=None,
+    force_https=False
+)
+
+CORS(
+
+    app,
+
+    resources={
+
+        r"/api/*": {
+
+            "origins": "*"
+
+        }
+
+    }
+
 )
 
 # -----------------------------
@@ -39,6 +74,10 @@ jwt.init_app(app)
 cache.init_app(app)
 
 mail.init_app(app)
+
+limiter.init_app(
+    app
+)
 
 with app.app_context():
 
