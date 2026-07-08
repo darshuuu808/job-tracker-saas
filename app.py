@@ -138,8 +138,12 @@ register_error_handlers(
 # Blueprints
 # -----------------------------
 
-from api.application_routes import (
-    application_bp
+from api.v1.application_routes import (
+    application_bp as application_bp_v1
+)
+
+from api.v2.application_routes import (
+    application_bp as application_bp_v2
 )
 
 from api.auth_routes import (
@@ -166,8 +170,16 @@ from api.admin_routes import (
     admin_bp
 )
 
+# -----------------------------
+# Register Blueprints
+# -----------------------------
+
 app.register_blueprint(
-    application_bp
+    application_bp_v1
+)
+
+app.register_blueprint(
+    application_bp_v2
 )
 
 app.register_blueprint(
