@@ -24,12 +24,13 @@ def unique_company():
 def test_list_applications():
 
     with app.app_context():
-
         apps = ApplicationService.list_applications()
 
-        assert isinstance(apps, list)
-
-
+        assert hasattr(apps, "items")
+        assert hasattr(apps, "page")
+        assert hasattr(apps, "pages")
+        assert hasattr(apps, "total")
+        
 def test_create_application():
 
     with app.app_context():

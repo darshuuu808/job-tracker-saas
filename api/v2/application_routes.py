@@ -194,18 +194,38 @@ def get_application(
 )
 def create_application():
 
-    data = request.get_json()
+    data = request.get_json() or {}
+
+    company = data.get("company")
+    role = data.get("role")
+    notes = data.get("notes")
+
+    if not company or not company.strip():
+
+        return jsonify(
+            {
+                "error":
+                "company is required"
+            }
+        ), 400
+
+    if not role or not role.strip():
+
+        return jsonify(
+            {
+                "error":
+                "role is required"
+            }
+        ), 400
 
     try:
 
         app = (
             ApplicationService.create_application(
-                company=data["company"],
-                role=data["role"],
+                company=company.strip(),
+                role=role.strip(),
                 status=Status.APPLIED,
-                notes=data.get(
-                    "notes"
-                )
+                notes=notes
             )
         )
 
@@ -227,7 +247,6 @@ def create_application():
                 str(e)
             }
         ), 400
-
 
 # -----------------------------
 # Update Application

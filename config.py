@@ -102,3 +102,15 @@ class Config:
     UPLOAD_FOLDER = "uploads"
 
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
+
+    # -----------------------------
+    # Adzuna Configuration
+    # -----------------------------
+
+    ADZUNA_APP_ID = os.getenv(
+        "ADZUNA_APP_ID"
+    )
+
+    ADZUNA_APP_KEY = os.getenv(
+        "ADZUNA_APP_KEY"
+    )

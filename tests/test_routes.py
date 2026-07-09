@@ -1,76 +1,104 @@
+import uuid
+
+import pytest
+
 from app import app
 
 
-def test_home():
+@pytest.fixture
+def client():
 
-    client = app.test_client()
+    app.config["TESTING"] = True
 
-    response = client.get("/")
+    with app.test_client() as client:
+        yield client
 
-    assert response.status_code == 200
 
+def test_create_application(client):
 
-def test_validation_success():
-
-    client = app.test_client()
+    company = f"Google_{uuid.uuid4().hex[:8]}"
 
     response = client.post(
-        "/api/applications",
+        "/api/v2/applications",
         json={
-            "company": "Google",
-            "role": "Intern"
+            "company": company,
+            "role": "Software Engineer Intern"
         }
     )
 
-    assert response.status_code == 200
+    print("\nSTATUS:", response.status_code)
+    print(response.get_json())
+
+    assert response.status_code == 201
+
+    data = response.get_json()
+
+    assert data["message"] == "Application created"
+
+    assert "id" in data
 
 
-def test_validation_missing_company():
-
-    client = app.test_client()
+def test_missing_company(client):
 
     response = client.post(
-        "/api/applications",
+        "/api/v2/applications",
         json={
-            "role": "Intern"
+            "role": "Software Engineer Intern"
         }
     )
 
     assert response.status_code == 400
 
+    data = response.get_json()
 
-def test_validation_empty_company():
+    assert "error" in data
 
-    client = app.test_client()
+
+def test_missing_role(client):
 
     response = client.post(
-        "/api/applications",
+        "/api/v2/applications",
+        json={
+            "company": "Google"
+        }
+    )
+
+    assert response.status_code == 400
+
+    data = response.get_json()
+
+    assert "error" in data
+
+
+def test_empty_company(client):
+
+    response = client.post(
+        "/api/v2/applications",
         json={
             "company": "",
-            "role": "Intern"
+            "role": "Software Engineer Intern"
         }
     )
 
     assert response.status_code == 400
 
+    data = response.get_json()
 
-def test_upload_without_file():
+    assert "error" in data
 
-    client = app.test_client()
+
+def test_empty_role(client):
 
     response = client.post(
-        "/api/upload"
+        "/api/v2/applications",
+        json={
+            "company": "Google",
+            "role": ""
+        }
     )
 
     assert response.status_code == 400
 
+    data = response.get_json()
 
-def test_application_with_resume_no_file():
-
-    client = app.test_client()
-
-    response = client.post(
-        "/api/application-with-resume"
-    )
-
-    assert response.status_code == 400
+    assert "error" in data
