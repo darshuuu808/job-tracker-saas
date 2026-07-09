@@ -2,6 +2,8 @@ from collections import Counter
 
 from datetime import datetime
 
+from extensions import cache
+
 from models.job_application import (
     JobApplication,
     Status
@@ -11,6 +13,7 @@ from models.job_application import (
 class AnalyticsService:
 
     @staticmethod
+    @cache.cached(timeout=300)
     def get_analytics():
 
         applications = (
@@ -47,13 +50,13 @@ class AnalyticsService:
             0
         )
 
-        if total_applications == 0:
+        response_rate = (
 
-            response_rate = 0
+            0
 
-        else:
+            if total_applications == 0
 
-            response_rate = round(
+            else round(
 
                 (
                     interviews +
@@ -72,6 +75,8 @@ class AnalyticsService:
 
             )
 
+        )
+
         # -----------------------------
         # Best Day To Apply
         # -----------------------------
@@ -82,25 +87,21 @@ class AnalyticsService:
 
             if application.applied_date:
 
-                weekday = (
+                weekday_counter[
                     application.applied_date.strftime(
                         "%A"
                     )
-                )
-
-                weekday_counter[
-                    weekday
                 ] += 1
 
-        if weekday_counter:
+        best_day = (
 
-            best_day = weekday_counter.most_common(
-                1
-            )[0][0]
+            weekday_counter.most_common(1)[0][0]
 
-        else:
+            if weekday_counter
 
-            best_day = "No Data"
+            else "No Data"
+
+        )
 
         # -----------------------------
         # Average Days Per Status
@@ -122,29 +123,16 @@ class AnalyticsService:
 
                 ).days
 
-                status = (
-                    application.status.value
-                )
+                status = application.status.value
 
-                if status not in status_days:
+                status_days.setdefault(
+                    status,
+                    []
+                ).append(days)
 
-                    status_days[
-                        status
-                    ] = []
+        average_days = {
 
-                status_days[
-                    status
-                ].append(
-                    days
-                )
-
-        average_days = {}
-
-        for status, values in status_days.items():
-
-            average_days[
-                status
-            ] = round(
+            status: round(
 
                 sum(values)
 
@@ -156,15 +144,17 @@ class AnalyticsService:
 
             )
 
+            for status, values in status_days.items()
+
+        }
+
         return {
 
             "total_applications":
             total_applications,
 
             "applications_per_status":
-            dict(
-                status_counter
-            ),
+            dict(status_counter),
 
             "response_rate":
             response_rate,

@@ -21,6 +21,27 @@ class JobApplication(db.Model):
 
     __tablename__ = "job_applications"
 
+    __table_args__ = (
+
+        db.Index(
+            "idx_user_status_date",
+            "user_id",
+            "status",
+            "applied_date"
+        ),
+
+        db.Index(
+            "idx_status",
+            "status"
+        ),
+
+        db.Index(
+            "idx_applied_date",
+            "applied_date"
+        ),
+
+    )
+
     id = db.Column(
         db.Integer,
         primary_key=True
