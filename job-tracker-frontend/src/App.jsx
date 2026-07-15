@@ -1,8 +1,28 @@
-import ComponentDemo from "./pages/ComponentDemo";
+import AddApplicationForm from "./forms/AddApplicationForm";
 
-function App(){
+function App() {
 
-    return <ComponentDemo/>;
+    return (
+
+        <div
+
+            style={{
+
+                display: "flex",
+
+                justifyContent: "center",
+
+                marginTop: "40px"
+
+            }}
+
+        >
+
+            <AddApplicationForm />
+
+        </div>
+
+    );
 
 }
 

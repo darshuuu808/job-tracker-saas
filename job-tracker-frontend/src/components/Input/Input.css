@@ -1,11 +1,43 @@
-.input-group {
-  display: flex;
-  flex-direction: column;
-  margin: 12px 0;
+.input-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    margin-bottom:18px;
+
 }
 
-.input-group input {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+.input-group label{
+
+    margin-bottom:6px;
+
+    font-weight:600;
+
+}
+
+.input-group input,
+
+.input-group textarea,
+
+.input-group select{
+
+    padding:10px;
+
+    border:1px solid #ccc;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+}
+
+.error{
+
+    color:#dc2626;
+
+    font-size:13px;
+
+    margin-top:5px;
+
 }
