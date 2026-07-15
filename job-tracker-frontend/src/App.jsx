@@ -1,6 +1,9 @@
-import { RouterProvider } from "react-router-dom";
-import router from "./router";
+import ComponentDemo from "./pages/ComponentDemo";
 
-export default function App() {
-  return <RouterProvider router={router} />;
+function App(){
+
+    return <ComponentDemo/>;
+
 }
+
+export default App;
