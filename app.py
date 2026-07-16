@@ -58,21 +58,9 @@ Talisman(
 )
 
 CORS(
-
     app,
-
-    resources={
-
-        r"/api/*": {
-
-            "origins": "*"
-
-        }
-
-    }
-
+    supports_credentials=True
 )
-
 # -----------------------------
 # Initialize Extensions
 # -----------------------------

@@ -1,19 +1,28 @@
 import Dashboard from "./pages/Dashboard";
-import Login from "./pages/Login";
+
+import ProtectedRoute from "./components/ProtectedRoute";
+
+import {
+
+    AuthProvider
+
+} from "./context/AuthContext";
 
 function App() {
 
-    if (
+    return (
 
-        window.location.pathname === "/login"
+        <AuthProvider>
 
-    ) {
+            <ProtectedRoute>
 
-        return <Login />;
+                <Dashboard />
 
-    }
+            </ProtectedRoute>
 
-    return <Dashboard />;
+        </AuthProvider>
+
+    );
 
 }
 

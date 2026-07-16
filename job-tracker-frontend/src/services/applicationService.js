@@ -4,7 +4,7 @@ export const createApplication = async (application) => {
 
     const response = await API.post(
 
-        "/applications",
+        "/api/v2/applications",
 
         {
 
@@ -26,7 +26,7 @@ export const getApplications = async () => {
 
     const response = await API.get(
 
-        "/applications"
+        "/api/v2/applications"
 
     );
 
