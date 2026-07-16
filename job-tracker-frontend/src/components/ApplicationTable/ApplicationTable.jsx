@@ -6,6 +6,28 @@ function ApplicationTable({
 
 }) {
 
+    if (
+
+        applications.length === 0
+
+    ) {
+
+        return (
+
+            <div className="empty-state">
+
+                <h3>
+
+                    No Applications Found
+
+                </h3>
+
+            </div>
+
+        );
+
+    }
+
     return (
 
         <table className="application-table">
@@ -13,6 +35,8 @@ function ApplicationTable({
             <thead>
 
                 <tr>
+
+                    <th>ID</th>
 
                     <th>Company</th>
 
@@ -32,17 +56,87 @@ function ApplicationTable({
 
                     applications.map(
 
-                        (app) => (
+                        (application) => (
 
-                            <tr key={app.id}>
+                            <tr
 
-                                <td>{app.company}</td>
+                                key={
 
-                                <td>{app.role}</td>
+                                    application.id
 
-                                <td>{app.status}</td>
+                                }
 
-                                <td>{app.notes}</td>
+                            >
+
+                                <td>
+
+                                    {
+
+                                        application.id
+
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    {
+
+                                        application.company
+
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    {
+
+                                        application.role
+
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    <span
+
+                                        className={`status ${application.status
+
+                                            .replaceAll(
+
+                                                " ",
+
+                                                "-"
+
+                                            )
+
+                                            .toLowerCase()}`}
+
+                                    >
+
+                                        {
+
+                                            application.status
+
+                                        }
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    {
+
+                                        application.notes ||
+
+                                        "-"
+
+                                    }
+
+                                </td>
 
                             </tr>
 

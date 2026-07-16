@@ -1,15 +1,26 @@
 import { useForm } from "react-hook-form";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { applicationSchema } from "../validation/applicationSchema";
 
+import useApplicationStore from "../store/applicationStore";
+
 import Input from "../components/Input/Input";
+
 import Button from "../components/Button/Button";
+
 import Card from "../components/Card/Card";
 
-import { createApplication } from "../services/applicationService";
-
 function AddApplicationForm() {
+
+    const addApplication = useApplicationStore(
+
+        (state) =>
+
+            state.addApplication
+
+    );
 
     const {
 
@@ -21,7 +32,9 @@ function AddApplicationForm() {
 
         formState: {
 
-            errors
+            errors,
+
+            isSubmitting
 
         }
 
@@ -35,15 +48,21 @@ function AddApplicationForm() {
 
     });
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (
+
+        data
+
+    ) => {
 
         try {
 
-            const response = await createApplication(data);
+            await addApplication(data);
 
-            alert(response.message);
+            alert(
 
-            console.log(response);
+                "Application added successfully."
+
+            );
 
             reset();
 
@@ -55,7 +74,9 @@ function AddApplicationForm() {
 
                 error.response?.data?.error ||
 
-                "Something went wrong"
+                error.message ||
+
+                "Unable to add application."
 
             );
 
@@ -66,6 +87,12 @@ function AddApplicationForm() {
     return (
 
         <Card>
+
+            <h2>
+
+                Add Job Application
+
+            </h2>
 
             <form
 
@@ -80,12 +107,6 @@ function AddApplicationForm() {
                 }
 
             >
-
-                <h2>
-
-                    Add Application
-
-                </h2>
 
                 <Input
 
@@ -115,7 +136,7 @@ function AddApplicationForm() {
 
                     label="Role"
 
-                    placeholder="Software Engineer Intern"
+                    placeholder="Software Engineer"
 
                     {
 
@@ -197,7 +218,9 @@ function AddApplicationForm() {
 
                     {
 
-                        errors.status && (
+                        errors.status &&
+
+                        (
 
                             <span className="error">
 
@@ -251,7 +274,7 @@ function AddApplicationForm() {
 
                         rows="4"
 
-                        placeholder="Write additional notes..."
+                        placeholder="Additional Notes"
 
                         {
 
@@ -273,9 +296,27 @@ function AddApplicationForm() {
 
                     variant="primary"
 
+                    disabled={
+
+                        isSubmitting
+
+                    }
+
                 >
 
-                    Add Application
+                    {
+
+                        isSubmitting
+
+                        ?
+
+                        "Adding..."
+
+                        :
+
+                        "Add Application"
+
+                    }
 
                 </Button>
 
