@@ -1,28 +1,19 @@
-import AddApplicationForm from "./forms/AddApplicationForm";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
 
 function App() {
 
-    return (
+    if (
 
-        <div
+        window.location.pathname === "/login"
 
-            style={{
+    ) {
 
-                display: "flex",
+        return <Login />;
 
-                justifyContent: "center",
+    }
 
-                marginTop: "40px"
-
-            }}
-
-        >
-
-            <AddApplicationForm />
-
-        </div>
-
-    );
+    return <Dashboard />;
 
 }
 
