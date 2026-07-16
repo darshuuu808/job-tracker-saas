@@ -2,23 +2,51 @@ import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { toast } from "sonner";
+
 import { applicationSchema } from "../validation/applicationSchema";
 
 import useApplicationStore from "../store/applicationStore";
 
-import Input from "../components/Input/Input";
+import { Button } from "@/components/ui/button";
 
-import Button from "../components/Button/Button";
+import { Input } from "@/components/ui/input";
 
-import Card from "../components/Card/Card";
+import { Textarea } from "@/components/ui/textarea";
+
+import {
+
+    Card,
+
+    CardContent,
+
+    CardDescription,
+
+    CardHeader,
+
+    CardTitle
+
+} from "@/components/ui/card";
+
+import {
+
+    Select,
+
+    SelectContent,
+
+    SelectItem,
+
+    SelectTrigger,
+
+    SelectValue
+
+} from "@/components/ui/select";
 
 function AddApplicationForm() {
 
     const addApplication = useApplicationStore(
 
-        (state) =>
-
-            state.addApplication
+        (state) => state.addApplication
 
     );
 
@@ -29,6 +57,8 @@ function AddApplicationForm() {
         handleSubmit,
 
         reset,
+
+        setValue,
 
         formState: {
 
@@ -48,19 +78,15 @@ function AddApplicationForm() {
 
     });
 
-    const onSubmit = async (
-
-        data
-
-    ) => {
+    const onSubmit = async (data) => {
 
         try {
 
             await addApplication(data);
 
-            alert(
+            toast.success(
 
-                "Application added successfully."
+                "Application added successfully!"
 
             );
 
@@ -70,7 +96,7 @@ function AddApplicationForm() {
 
         catch (error) {
 
-            alert(
+            toast.error(
 
                 error.response?.data?.error ||
 
@@ -86,241 +112,287 @@ function AddApplicationForm() {
 
     return (
 
-        <Card>
+        <Card className="shadow-lg">
 
-            <h2>
+            <CardHeader>
 
-                Add Job Application
+                <CardTitle>
 
-            </h2>
+                    Add Job Application
 
-            <form
+                </CardTitle>
 
-                onSubmit={
+                <CardDescription>
 
-                    handleSubmit(
+                    Track your latest applications
 
-                        onSubmit
+                </CardDescription>
 
-                    )
+            </CardHeader>
 
-                }
+            <CardContent>
 
-            >
+                <form
 
-                <Input
+                    onSubmit={handleSubmit(onSubmit)}
 
-                    label="Company"
-
-                    placeholder="Google"
-
-                    {
-
-                        ...register(
-
-                            "company"
-
-                        )
-
-                    }
-
-                    error={
-
-                        errors.company?.message
-
-                    }
-
-                />
-
-                <Input
-
-                    label="Role"
-
-                    placeholder="Software Engineer"
-
-                    {
-
-                        ...register(
-
-                            "role"
-
-                        )
-
-                    }
-
-                    error={
-
-                        errors.role?.message
-
-                    }
-
-                />
-
-                <div className="input-group">
-
-                    <label>
-
-                        Status
-
-                    </label>
-
-                    <select
-
-                        {
-
-                            ...register(
-
-                                "status"
-
-                            )
-
-                        }
-
-                    >
-
-                        <option value="">
-
-                            Select Status
-
-                        </option>
-
-                        <option value="Applied">
-
-                            Applied
-
-                        </option>
-
-                        <option value="Phone Screen">
-
-                            Phone Screen
-
-                        </option>
-
-                        <option value="Interview">
-
-                            Interview
-
-                        </option>
-
-                        <option value="Offer">
-
-                            Offer
-
-                        </option>
-
-                        <option value="Rejected">
-
-                            Rejected
-
-                        </option>
-
-                    </select>
-
-                    {
-
-                        errors.status &&
-
-                        (
-
-                            <span className="error">
-
-                                {
-
-                                    errors.status.message
-
-                                }
-
-                            </span>
-
-                        )
-
-                    }
-
-                </div>
-
-                <Input
-
-                    label="Applied Date"
-
-                    type="date"
-
-                    {
-
-                        ...register(
-
-                            "appliedDate"
-
-                        )
-
-                    }
-
-                    error={
-
-                        errors.appliedDate?.message
-
-                    }
-
-                />
-
-                <div className="input-group">
-
-                    <label>
-
-                        Notes
-
-                    </label>
-
-                    <textarea
-
-                        rows="4"
-
-                        placeholder="Additional Notes"
-
-                        {
-
-                            ...register(
-
-                                "notes"
-
-                            )
-
-                        }
-
-                    />
-
-                </div>
-
-                <Button
-
-                    type="submit"
-
-                    variant="primary"
-
-                    disabled={
-
-                        isSubmitting
-
-                    }
+                    className="space-y-6"
 
                 >
 
-                    {
+                    <div className="space-y-2">
 
-                        isSubmitting
+                        <label className="text-sm font-medium">
 
-                        ?
+                            Company
 
-                        "Adding..."
+                        </label>
 
-                        :
+                        <Input
 
-                        "Add Application"
+                            placeholder="Google"
 
-                    }
+                            {...register("company")}
 
-                </Button>
+                        />
 
-            </form>
+                        {
+
+                            errors.company && (
+
+                                <p className="text-sm text-red-500">
+
+                                    {
+
+                                        errors.company.message
+
+                                    }
+
+                                </p>
+
+                            )
+
+                        }
+
+                    </div>
+
+                    <div className="space-y-2">
+
+                        <label className="text-sm font-medium">
+
+                            Role
+
+                        </label>
+
+                        <Input
+
+                            placeholder="Software Engineer"
+
+                            {...register("role")}
+
+                        />
+
+                        {
+
+                            errors.role && (
+
+                                <p className="text-sm text-red-500">
+
+                                    {
+
+                                        errors.role.message
+
+                                    }
+
+                                </p>
+
+                            )
+
+                        }
+
+                    </div>
+
+                    <div className="space-y-2">
+
+                        <label className="text-sm font-medium">
+
+                            Status
+
+                        </label>
+
+                        <Select
+
+                            onValueChange={(value) =>
+
+                                setValue(
+
+                                    "status",
+
+                                    value,
+
+                                    {
+
+                                        shouldValidate: true
+
+                                    }
+
+                                )
+
+                            }
+
+                        >
+
+                            <SelectTrigger>
+
+                                <SelectValue
+
+                                    placeholder="Select Status"
+
+                                />
+
+                            </SelectTrigger>
+
+                            <SelectContent>
+
+                                <SelectItem value="Applied">
+
+                                    Applied
+
+                                </SelectItem>
+
+                                <SelectItem value="Phone Screen">
+
+                                    Phone Screen
+
+                                </SelectItem>
+
+                                <SelectItem value="Interview">
+
+                                    Interview
+
+                                </SelectItem>
+
+                                <SelectItem value="Offer">
+
+                                    Offer
+
+                                </SelectItem>
+
+                                <SelectItem value="Rejected">
+
+                                    Rejected
+
+                                </SelectItem>
+
+                            </SelectContent>
+
+                        </Select>
+
+                        {
+
+                            errors.status && (
+
+                                <p className="text-sm text-red-500">
+
+                                    {
+
+                                        errors.status.message
+
+                                    }
+
+                                </p>
+
+                            )
+
+                        }
+
+                    </div>
+
+                    <div className="space-y-2">
+
+                        <label className="text-sm font-medium">
+
+                            Applied Date
+
+                        </label>
+
+                        <Input
+
+                            type="date"
+
+                            {...register(
+
+                                "appliedDate"
+
+                            )}
+
+                        />
+
+                        {
+
+                            errors.appliedDate && (
+
+                                <p className="text-sm text-red-500">
+
+                                    {
+
+                                        errors.appliedDate.message
+
+                                    }
+
+                                </p>
+
+                            )
+
+                        }
+
+                    </div>
+
+                    <div className="space-y-2">
+
+                        <label className="text-sm font-medium">
+
+                            Notes
+
+                        </label>
+
+                        <Textarea
+
+                            rows={4}
+
+                            placeholder="Additional notes..."
+
+                            {...register("notes")}
+
+                        />
+
+                    </div>
+
+                    <Button
+
+                        type="submit"
+
+                        className="w-full"
+
+                        disabled={isSubmitting}
+
+                    >
+
+                        {
+
+                            isSubmitting
+
+                                ? "Adding..."
+
+                                : "Add Application"
+
+                        }
+
+                    </Button>
+
+                </form>
+
+            </CardContent>
 
         </Card>
 

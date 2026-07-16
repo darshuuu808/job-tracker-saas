@@ -2,15 +2,51 @@ import { useState } from "react";
 
 import { useAuth } from "../context/AuthContext";
 
+import { Button } from "@/components/ui/button";
+
+import { Input } from "@/components/ui/input";
+
+import {
+
+    Card,
+
+    CardContent,
+
+    CardDescription,
+
+    CardHeader,
+
+    CardTitle
+
+} from "@/components/ui/card";
+
 function Login() {
 
     const { login } = useAuth();
 
-    const [email, setEmail] = useState("");
+    const [
 
-    const [password, setPassword] = useState("");
+        email,
 
-    const [error, setError] = useState("");
+        setEmail
+
+    ] = useState("");
+
+    const [
+
+        password,
+
+        setPassword
+
+    ] = useState("");
+
+    const [
+
+        error,
+
+        setError
+
+    ] = useState("");
 
     const handleSubmit = async (e) => {
 
@@ -20,9 +56,13 @@ function Login() {
 
         try {
 
-            await login(email, password);
+            await login(
 
-            window.location.href = "/";
+                email,
+
+                password
+
+            );
 
         }
 
@@ -42,98 +82,135 @@ function Login() {
 
     return (
 
-        <div
-            style={{
-                width: "350px",
-                margin: "100px auto"
-            }}
-        >
+        <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4">
 
-            <h2>Login</h2>
+            <Card className="w-full max-w-md shadow-xl">
 
-            <form onSubmit={handleSubmit}>
+                <CardHeader>
 
-                <input
+                    <CardTitle className="text-3xl">
 
-                    type="email"
+                        Job Tracker
 
-                    placeholder="Email"
+                    </CardTitle>
 
-                    value={email}
+                    <CardDescription>
 
-                    onChange={(e) =>
+                        Sign in to continue
 
-                        setEmail(e.target.value)
+                    </CardDescription>
 
-                    }
+                </CardHeader>
 
-                    style={{
+                <CardContent>
 
-                        width: "100%",
+                    <form
 
-                        padding: "10px",
+                        onSubmit={handleSubmit}
 
-                        marginBottom: "10px"
+                        className="space-y-5"
 
-                    }}
+                    >
 
-                />
+                        <div className="space-y-2">
 
-                <input
+                            <label className="text-sm font-medium">
 
-                    type="password"
+                                Email
 
-                    placeholder="Password"
+                            </label>
 
-                    value={password}
+                            <Input
 
-                    onChange={(e) =>
+                                type="email"
 
-                        setPassword(e.target.value)
+                                placeholder="you@example.com"
 
-                    }
+                                value={email}
 
-                    style={{
+                                onChange={(e) =>
 
-                        width: "100%",
+                                    setEmail(
 
-                        padding: "10px",
+                                        e.target.value
 
-                        marginBottom: "10px"
+                                    )
 
-                    }}
+                                }
 
-                />
+                                required
 
-                {error && (
+                            />
 
-                    <p style={{ color: "red" }}>
+                        </div>
 
-                        {error}
+                        <div className="space-y-2">
 
-                    </p>
+                            <label className="text-sm font-medium">
 
-                )}
+                                Password
 
-                <button
+                            </label>
 
-                    type="submit"
+                            <Input
 
-                    style={{
+                                type="password"
 
-                        width: "100%",
+                                placeholder="Enter your password"
 
-                        padding: "10px"
+                                value={password}
 
-                    }}
+                                onChange={(e) =>
 
-                >
+                                    setPassword(
 
-                    Login
+                                        e.target.value
 
-                </button>
+                                    )
 
-            </form>
+                                }
+
+                                required
+
+                            />
+
+                        </div>
+
+                        {
+
+                            error && (
+
+                                <div className="rounded-md border border-red-300 bg-red-50 p-3">
+
+                                    <p className="text-sm text-red-600">
+
+                                        {error}
+
+                                    </p>
+
+                                </div>
+
+                            )
+
+                        }
+
+                        <Button
+
+                            type="submit"
+
+                            className="w-full"
+
+                        >
+
+                            Login
+
+                        </Button>
+
+                    </form>
+
+                </CardContent>
+
+            </Card>
 
         </div>
 

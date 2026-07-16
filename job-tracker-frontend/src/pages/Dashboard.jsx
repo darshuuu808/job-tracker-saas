@@ -1,65 +1,49 @@
 import { useEffect } from "react";
 
 import useApplicationStore from "../store/applicationStore";
-
 import AddApplicationForm from "../forms/AddApplicationForm";
-
 import ApplicationTable from "../components/ApplicationTable/ApplicationTable";
+import ThemeToggle from "../components/ThemeToggle";
+
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle
+} from "@/components/ui/card";
+
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select";
 
 function Dashboard() {
 
     const applications = useApplicationStore(
-
         (state) => state.applications
-
     );
 
     const loading = useApplicationStore(
-
         (state) => state.loading
-
     );
 
     const error = useApplicationStore(
-
         (state) => state.error
-
     );
 
     const filter = useApplicationStore(
-
         (state) => state.filter
-
-    );
-
-    const page = useApplicationStore(
-
-        (state) => state.page
-
-    );
-
-    const perPage = useApplicationStore(
-
-        (state) => state.perPage
-
     );
 
     const fetchApplications = useApplicationStore(
-
         (state) => state.fetchApplications
-
     );
 
     const setFilter = useApplicationStore(
-
         (state) => state.setFilter
-
-    );
-
-    const setPage = useApplicationStore(
-
-        (state) => state.setPage
-
     );
 
     useEffect(() => {
@@ -68,57 +52,49 @@ function Dashboard() {
 
     }, []);
 
-    // -----------------------------
-    // Derived State
-    // -----------------------------
-
     const filteredApplications =
-
         filter === "All"
-
             ? applications
-
             : applications.filter(
-
                 (app) =>
-
                     app.status === filter
-
             );
 
-    const totalPages = Math.max(
+    const total = applications.length;
 
-        1,
+    const applied =
+        applications.filter(
+            (a) =>
+                a.status === "Applied"
+        ).length;
 
-        Math.ceil(
+    const interview =
+        applications.filter(
+            (a) =>
+                a.status === "Interview"
+        ).length;
 
-            filteredApplications.length /
+    const offer =
+        applications.filter(
+            (a) =>
+                a.status === "Offer"
+        ).length;
 
-            perPage
-
-        )
-
-    );
-
-    const paginatedApplications =
-
-        filteredApplications.slice(
-
-            (page - 1) * perPage,
-
-            page * perPage
-
-        );
+    const rejected =
+        applications.filter(
+            (a) =>
+                a.status === "Rejected"
+        ).length;
 
     if (loading) {
 
         return (
 
-            <h2>
+            <div className="min-h-screen flex items-center justify-center">
 
-                Loading applications...
+                <h2>Loading...</h2>
 
-            </h2>
+            </div>
 
         );
 
@@ -128,219 +104,250 @@ function Dashboard() {
 
         return (
 
-            <h2>
+            <div className="min-h-screen flex items-center justify-center">
 
-                {error}
+                <h2 className="text-red-500">
 
-            </h2>
+                    {error}
+
+                </h2>
+
+            </div>
 
         );
 
     }
-
     return (
 
-        <div
+        <div className="min-h-screen bg-background">
 
-            style={{
+            <div className="max-w-7xl mx-auto p-8">
 
-                maxWidth: "1200px",
+                <div className="mb-8 flex items-center justify-between">
 
-                margin: "0 auto",
+                    <div>
 
-                padding: "30px"
+                        <h1 className="text-4xl font-bold text-slate-900 dark:text-white">
 
-            }}
+                            Job Tracker Dashboard
 
-        >
+                        </h1>
 
-            <h1>
+                        <p className="text-muted-foreground">
 
-                Job Tracker Dashboard
+                            Manage all your job applications in one place.
 
-            </h1>
+                        </p>
 
-            <AddApplicationForm />
+                    </div>
 
-            <div
+                    <ThemeToggle />
 
-                style={{
+                </div>
 
-                    marginTop: "30px",
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-8">
 
-                    marginBottom: "20px"
+                    <Card>
 
-                }}
+                        <CardHeader>
 
-            >
+                            <CardTitle>Total</CardTitle>
 
-                <label>
+                        </CardHeader>
 
-                    Filter by Status
+                        <CardContent>
 
-                </label>
+                            <p className="text-3xl font-bold">
 
-                <br />
+                                {total}
 
-                <select
+                            </p>
 
-                    value={filter}
+                        </CardContent>
 
-                    onChange={(e) =>
+                    </Card>
 
-                        setFilter(
+                    <Card>
 
-                            e.target.value
+                        <CardHeader>
 
-                        )
+                            <CardTitle>Applied</CardTitle>
 
-                    }
+                        </CardHeader>
 
-                    style={{
+                        <CardContent>
 
-                        width: "250px",
+                            <p className="text-3xl font-bold text-blue-600">
 
-                        padding: "8px",
+                                {applied}
 
-                        marginTop: "8px"
+                            </p>
 
-                    }}
+                        </CardContent>
 
-                >
+                    </Card>
 
-                    <option value="All">
+                    <Card>
 
-                        All
+                        <CardHeader>
 
-                    </option>
+                            <CardTitle>Interview</CardTitle>
 
-                    <option value="Applied">
+                        </CardHeader>
 
-                        Applied
+                        <CardContent>
 
-                    </option>
+                            <p className="text-3xl font-bold text-orange-500">
 
-                    <option value="Phone Screen">
+                                {interview}
 
-                        Phone Screen
+                            </p>
 
-                    </option>
+                        </CardContent>
 
-                    <option value="Interview">
+                    </Card>
 
-                        Interview
+                    <Card>
 
-                    </option>
+                        <CardHeader>
 
-                    <option value="Offer">
+                            <CardTitle>Offer</CardTitle>
 
-                        Offer
+                        </CardHeader>
 
-                    </option>
+                        <CardContent>
 
-                    <option value="Rejected">
+                            <p className="text-3xl font-bold text-green-600">
 
-                        Rejected
+                                {offer}
 
-                    </option>
+                            </p>
 
-                </select>
+                        </CardContent>
 
-            </div>
+                    </Card>
 
-            <ApplicationTable
+                    <Card>
 
-                applications={
+                        <CardHeader>
 
-                    paginatedApplications
+                            <CardTitle>Rejected</CardTitle>
 
-                }
+                        </CardHeader>
 
-            />
+                        <CardContent>
 
-            <div
+                            <p className="text-3xl font-bold text-red-500">
 
-                style={{
+                                {rejected}
 
-                    display: "flex",
+                            </p>
 
-                    justifyContent: "center",
+                        </CardContent>
 
-                    alignItems: "center",
+                    </Card>
 
-                    gap: "20px",
+                </div>
 
-                    marginTop: "30px"
+                <div className="grid lg:grid-cols-3 gap-8">
 
-                }}
+                    <div>
 
-            >
+                        <AddApplicationForm />
 
-                <button
+                    </div>
 
-                    onClick={() =>
+                    <div className="lg:col-span-2">
 
-                        setPage(
+                        <Card>
 
-                            Math.max(
+                            <CardHeader>
 
-                                1,
+                                <CardTitle>
 
-                                page - 1
+                                    Applications
 
-                            )
+                                </CardTitle>
 
-                        )
+                            </CardHeader>
 
-                    }
+                            <CardContent>
 
-                    disabled={
+                                <div className="mb-6">
 
-                        page === 1
+                                    <Select
 
-                    }
+                                        value={filter}
 
-                >
+                                        onValueChange={setFilter}
 
-                    Previous
+                                    >
 
-                </button>
+                                        <SelectTrigger className="w-64">
 
-                <h3>
+                                            <SelectValue placeholder="Filter by Status" />
 
-                    Page {page} of {totalPages}
+                                        </SelectTrigger>
 
-                </h3>
+                                        <SelectContent>
 
-                <button
+                                            <SelectItem value="All">
 
-                    onClick={() =>
+                                                All
 
-                        setPage(
+                                            </SelectItem>
 
-                            Math.min(
+                                            <SelectItem value="Applied">
 
-                                totalPages,
+                                                Applied
 
-                                page + 1
+                                            </SelectItem>
 
-                            )
+                                            <SelectItem value="Phone Screen">
 
-                        )
+                                                Phone Screen
 
-                    }
+                                            </SelectItem>
 
-                    disabled={
+                                            <SelectItem value="Interview">
 
-                        page === totalPages
+                                                Interview
 
-                    }
+                                            </SelectItem>
 
-                >
+                                            <SelectItem value="Offer">
 
-                    Next
+                                                Offer
 
-                </button>
+                                            </SelectItem>
+
+                                            <SelectItem value="Rejected">
+
+                                                Rejected
+
+                                            </SelectItem>
+
+                                        </SelectContent>
+
+                                    </Select>
+
+                                </div>
+
+                                <div className="rounded-lg border overflow-hidden">
+
+                                 <ApplicationTable
+    data={
+        filteredApplications
+    }
+/>
+                                </div>
+                            </CardContent>
+
+                        </Card>
+
+                    </div>
+
+                </div>
 
             </div>
 

@@ -1,29 +1,27 @@
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import { Toaster } from "@/components/ui/sonner";
 
-import ProtectedRoute from "./components/ProtectedRoute";
+function AppContent() {
 
-import {
+  const { isAuthenticated, loading } = useAuth();
 
-    AuthProvider
-
-} from "./context/AuthContext";
-
-function App() {
-
+  if (loading)
     return (
-
-        <AuthProvider>
-
-            <ProtectedRoute>
-
-                <Dashboard />
-
-            </ProtectedRoute>
-
-        </AuthProvider>
-
+      <div className="min-h-screen flex items-center justify-center">
+        Loading...
+      </div>
     );
 
+  return isAuthenticated ? <Dashboard /> : <Login />;
 }
 
-export default App;
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+      <Toaster richColors />
+    </AuthProvider>
+  );
+}

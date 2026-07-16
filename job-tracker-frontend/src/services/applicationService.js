@@ -1,6 +1,48 @@
 import API from "./api";
 
-export const createApplication = async (application) => {
+// -------------------------
+// Get Applications
+// -------------------------
+
+export const getApplications = async (
+
+    page = 1,
+
+    perPage = 10
+
+) => {
+
+    const response = await API.get(
+
+        "/api/v2/applications",
+
+        {
+
+            params: {
+
+                page,
+
+                per_page: perPage
+
+            }
+
+        }
+
+    );
+
+    return response.data;
+
+};
+
+// -------------------------
+// Create Application
+// -------------------------
+
+export const createApplication = async (
+
+    application
+
+) => {
 
     const response = await API.post(
 
@@ -22,11 +64,43 @@ export const createApplication = async (application) => {
 
 };
 
-export const getApplications = async () => {
+// -------------------------
+// Update Application
+// -------------------------
 
-    const response = await API.get(
+export const updateApplication = async (
 
-        "/api/v2/applications"
+    id,
+
+    data
+
+) => {
+
+    const response = await API.patch(
+
+        `/api/v2/applications/${id}`,
+
+        data
+
+    );
+
+    return response.data;
+
+};
+
+// -------------------------
+// Delete Application
+// -------------------------
+
+export const deleteApplication = async (
+
+    id
+
+) => {
+
+    const response = await API.delete(
+
+        `/api/v2/applications/${id}`
 
     );
 
