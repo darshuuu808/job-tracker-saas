@@ -2,6 +2,8 @@ import os
 
 import bleach
 
+from sqlalchemy import func
+
 from extensions import db
 
 from models.job_application import (
@@ -272,18 +274,83 @@ class ApplicationService:
     @staticmethod
     def get_stats():
 
-        stats = {}
+        print("🔥 NEW get_stats() EXECUTED")
 
-        for status in Status:
+        total = JobApplication.query.count()
 
-            stats[
-                status.value
-            ] = (
+        applied = JobApplication.query.filter_by(
+            status=Status.APPLIED
+        ).count()
 
-                JobApplication.query.filter_by(
-                    status=status
-                ).count()
+        phone_screen = JobApplication.query.filter_by(
+            status=Status.PHONE_SCREEN
+        ).count()
 
+        interview = JobApplication.query.filter_by(
+            status=Status.INTERVIEW
+        ).count()
+
+        offer = JobApplication.query.filter_by(
+            status=Status.OFFER
+        ).count()
+
+        rejected = JobApplication.query.filter_by(
+            status=Status.REJECTED
+        ).count()
+
+        weekly = (
+            db.session.query(
+                func.date_trunc(
+                    "week",
+                    JobApplication.applied_date
+                ).label("week"),
+                func.count(
+                    JobApplication.id
+                ).label("count")
             )
+            .group_by("week")
+            .order_by("week")
+            .all()
+        )
 
-        return stats
+        applications_per_week = [
+            {
+                "week": row.week.strftime("%d %b"),
+                "count": row.count
+            }
+            for row in weekly
+        ]
+
+        status_distribution = [
+            {
+                "status": "Applied",
+                "count": applied
+            },
+            {
+                "status": "Phone Screen",
+                "count": phone_screen
+            },
+            {
+                "status": "Interview",
+                "count": interview
+            },
+            {
+                "status": "Offer",
+                "count": offer
+            },
+            {
+                "status": "Rejected",
+                "count": rejected
+            }
+        ]
+
+        return {
+            "total": total,
+            "applied": applied,
+            "phone_screen": phone_screen,
+            "interview": interview,
+            "offer": offer,
+            "rejected": rejected,
+            "status_distribution": status_distribution,
+            "applications_per_week": applications_per_week
+        }

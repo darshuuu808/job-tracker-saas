@@ -4,7 +4,8 @@ import useApplicationStore from "../store/applicationStore";
 import AddApplicationForm from "../forms/AddApplicationForm";
 import ApplicationTable from "../components/ApplicationTable/ApplicationTable";
 import ThemeToggle from "../components/ThemeToggle";
-
+import { Link } from "react-router-dom";
+import { BarChart3} from "lucide-react";
 import {
     Card,
     CardContent,
@@ -125,25 +126,33 @@ function Dashboard() {
 
                 <div className="mb-8 flex items-center justify-between">
 
-                    <div>
+    <div>
 
-                        <h1 className="text-4xl font-bold text-slate-900 dark:text-white">
+        <h1 className="text-4xl font-bold text-slate-900 dark:text-white">
+            Job Tracker Dashboard
+        </h1>
 
-                            Job Tracker Dashboard
+        <p className="text-muted-foreground">
+            Manage all your job applications in one place.
+        </p>
 
-                        </h1>
+    </div>
 
-                        <p className="text-muted-foreground">
+    <div className="flex items-center gap-3">
 
-                            Manage all your job applications in one place.
+        <Link
+            to="/analytics"
+            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition"
+        >
+            <BarChart3 size={18} />
+            Analytics
+        </Link>
 
-                        </p>
+        <ThemeToggle />
 
-                    </div>
+    </div>
 
-                    <ThemeToggle />
-
-                </div>
+</div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-8">
 

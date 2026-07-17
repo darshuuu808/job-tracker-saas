@@ -1,27 +1,80 @@
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import { AuthProvider, useAuth } from "./context/AuthContext";
+
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Analytics from "./pages/Analytics";
+
 import { Toaster } from "@/components/ui/sonner";
 
 function AppContent() {
 
-  const { isAuthenticated, loading } = useAuth();
+    const { isAuthenticated, loading } = useAuth();
 
-  if (loading)
+    if (loading) {
+
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                Loading...
+            </div>
+        );
+
+    }
+
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        Loading...
-      </div>
+
+        <Routes>
+
+            <Route
+                path="/login"
+                element={
+                    isAuthenticated
+                        ? <Navigate to="/" />
+                        : <Login />
+                }
+            />
+
+            <Route
+                path="/"
+                element={
+                    isAuthenticated
+                        ? <Dashboard />
+                        : <Navigate to="/login" />
+                }
+            />
+
+            <Route
+                path="/analytics"
+                element={
+                    isAuthenticated
+                        ? <Analytics />
+                        : <Navigate to="/login" />
+                }
+            />
+
+        </Routes>
+
     );
 
-  return isAuthenticated ? <Dashboard /> : <Login />;
 }
 
 export default function App() {
-  return (
-    <AuthProvider>
-      <AppContent />
-      <Toaster richColors />
-    </AuthProvider>
-  );
+
+    return (
+
+        <BrowserRouter>
+
+            <AuthProvider>
+
+                <AppContent />
+
+                <Toaster richColors />
+
+            </AuthProvider>
+
+        </BrowserRouter>
+
+    );
+
 }

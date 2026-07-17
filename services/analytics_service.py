@@ -1,8 +1,5 @@
 from collections import Counter
-
 from datetime import datetime
-
-from extensions import cache
 
 from models.job_application import (
     JobApplication,
@@ -13,16 +10,11 @@ from models.job_application import (
 class AnalyticsService:
 
     @staticmethod
-    @cache.cached(timeout=300)
     def get_analytics():
 
-        applications = (
-            JobApplication.query.all()
-        )
+        applications = JobApplication.query.all()
 
-        total_applications = len(
-            applications
-        )
+        total_applications = len(applications)
 
         # -----------------------------
         # Applications Per Status
@@ -31,10 +23,7 @@ class AnalyticsService:
         status_counter = Counter()
 
         for application in applications:
-
-            status_counter[
-                application.status.value
-            ] += 1
+            status_counter[application.status.value] += 1
 
         # -----------------------------
         # Response Rate
@@ -51,30 +40,12 @@ class AnalyticsService:
         )
 
         response_rate = (
-
             0
-
             if total_applications == 0
-
             else round(
-
-                (
-                    interviews +
-                    offers
-                )
-
-                /
-
-                total_applications
-
-                *
-
-                100,
-
+                ((interviews + offers) / total_applications) * 100,
                 2
-
             )
-
         )
 
         # -----------------------------
@@ -86,21 +57,14 @@ class AnalyticsService:
         for application in applications:
 
             if application.applied_date:
-
                 weekday_counter[
-                    application.applied_date.strftime(
-                        "%A"
-                    )
+                    application.applied_date.strftime("%A")
                 ] += 1
 
         best_day = (
-
             weekday_counter.most_common(1)[0][0]
-
             if weekday_counter
-
             else "No Data"
-
         )
 
         # -----------------------------
@@ -116,11 +80,7 @@ class AnalyticsService:
             if application.applied_date:
 
                 days = (
-
-                    today -
-
-                    application.applied_date
-
+                    today - application.applied_date
                 ).days
 
                 status = application.status.value
@@ -133,36 +93,74 @@ class AnalyticsService:
         average_days = {
 
             status: round(
-
-                sum(values)
-
-                /
-
-                len(values),
-
+                sum(values) / len(values),
                 2
-
             )
 
             for status, values in status_days.items()
 
         }
 
+        # -----------------------------
+        # Status Distribution
+        # -----------------------------
+
+        status_distribution = []
+
+        for status, count in status_counter.items():
+
+            status_distribution.append({
+
+                "status": status,
+
+                "count": count
+
+            })
+
+        # -----------------------------
+        # Applications Per Week
+        # -----------------------------
+
+        weekly_counter = Counter()
+
+        for application in applications:
+
+            if application.applied_date:
+
+                year, week, _ = application.applied_date.isocalendar()
+
+                weekly_counter[f"{year}-W{week:02d}"] += 1
+
+        applications_per_week = []
+
+        for week, count in sorted(weekly_counter.items()):
+
+            applications_per_week.append({
+
+                "week": week,
+
+                "count": count
+
+            })
+
+        # -----------------------------
+        # Final Response
+        # -----------------------------
+
         return {
 
-            "total_applications":
-            total_applications,
+            "total_applications": total_applications,
 
-            "applications_per_status":
-            dict(status_counter),
+            "applications_per_status": dict(status_counter),
 
-            "response_rate":
-            response_rate,
+            "status_distribution": status_distribution,
 
-            "best_day_to_apply":
-            best_day,
+            "applications_per_week": applications_per_week,
 
-            "average_days_per_status":
-            average_days
+            "response_rate": response_rate,
+
+            "best_day_to_apply": best_day,
+
+            "average_days_per_status": average_days
 
         }
