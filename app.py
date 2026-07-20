@@ -1,4 +1,5 @@
 from api.resume_routes import resume_bp
+from api.jobs_search_routes import job_search_bp
 
 from flask import (
     Flask,
@@ -170,6 +171,7 @@ app.register_blueprint(
 app.register_blueprint(
     application_bp_v1
 )
+
 
 app.register_blueprint(
     application_bp_v2

@@ -3,10 +3,16 @@ import { Link } from "react-router-dom";
 import { BarChart3 } from "lucide-react";
 
 import useApplicationStore from "../store/applicationStore";
+
 import AddApplicationForm from "../forms/AddApplicationForm";
+
 import ApplicationTable from "../components/ApplicationTable/ApplicationTable";
+
 import ThemeToggle from "../components/ThemeToggle";
+
 import ResumeUpload from "../components/FileUpload/ResumeUpload";
+
+import JobSearchBar from "../components/JobSearch/JobSearchBar";
 
 import {
     Card,
@@ -289,6 +295,28 @@ function Dashboard() {
 
                 </Card>
 
+                {/* NEW - Job Search */}
+
+                <Card className="mb-8">
+
+                    <CardHeader>
+
+                        <CardTitle>
+
+                            Job Search
+
+                        </CardTitle>
+
+                    </CardHeader>
+
+                    <CardContent>
+
+                        <JobSearchBar />
+
+                    </CardContent>
+
+                </Card>
+
                 {/* Main Content */}
 
                 <div className="grid lg:grid-cols-3 gap-8">
@@ -318,8 +346,11 @@ function Dashboard() {
                                 <div className="mb-6">
 
                                     <Select
+
                                         value={filter}
+
                                         onValueChange={setFilter}
+
                                     >
 
                                         <SelectTrigger className="w-64">

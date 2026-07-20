@@ -1,53 +1,43 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { toast } from "sonner";
 
 import { applicationSchema } from "../validation/applicationSchema";
-
 import useApplicationStore from "../store/applicationStore";
 
 import { Button } from "@/components/ui/button";
-
 import { Input } from "@/components/ui/input";
-
 import { Textarea } from "@/components/ui/textarea";
 
 import {
-
     Card,
-
     CardContent,
-
     CardDescription,
-
     CardHeader,
-
     CardTitle
-
 } from "@/components/ui/card";
 
 import {
-
     Select,
-
     SelectContent,
-
     SelectItem,
-
     SelectTrigger,
-
     SelectValue
-
 } from "@/components/ui/select";
 
 function AddApplicationForm() {
 
     const addApplication = useApplicationStore(
-
         (state) => state.addApplication
+    );
 
+    const selectedJob = useApplicationStore(
+        (state) => state.selectedJob
+    );
+
+    const clearSelectedJob = useApplicationStore(
+        (state) => state.clearSelectedJob
     );
 
     const {
@@ -71,12 +61,48 @@ function AddApplicationForm() {
     } = useForm({
 
         resolver: zodResolver(
-
             applicationSchema
-
         )
 
     });
+
+    useEffect(() => {
+
+        if (!selectedJob) return;
+
+        setValue(
+            "company",
+            selectedJob.company
+        );
+
+        // Your schema uses "role"
+        setValue(
+            "role",
+            selectedJob.title
+        );
+
+        setValue(
+            "status",
+            "Applied"
+        );
+
+        setValue(
+            "notes",
+            `Location: ${selectedJob.location}`
+        );
+
+        setValue(
+            "appliedDate",
+            new Date().toISOString().split("T")[0]
+        );
+
+        clearSelectedJob();
+
+    }, [
+        selectedJob,
+        setValue,
+        clearSelectedJob
+    ]);
 
     const onSubmit = async (data) => {
 
@@ -85,9 +111,7 @@ function AddApplicationForm() {
             await addApplication(data);
 
             toast.success(
-
                 "Application added successfully!"
-
             );
 
             reset();
@@ -162,11 +186,7 @@ function AddApplicationForm() {
 
                                 <p className="text-sm text-red-500">
 
-                                    {
-
-                                        errors.company.message
-
-                                    }
+                                    {errors.company.message}
 
                                 </p>
 
@@ -198,11 +218,7 @@ function AddApplicationForm() {
 
                                 <p className="text-sm text-red-500">
 
-                                    {
-
-                                        errors.role.message
-
-                                    }
+                                    {errors.role.message}
 
                                 </p>
 
@@ -239,6 +255,8 @@ function AddApplicationForm() {
                                 )
 
                             }
+
+                            defaultValue="Applied"
 
                         >
 
@@ -294,11 +312,7 @@ function AddApplicationForm() {
 
                                 <p className="text-sm text-red-500">
 
-                                    {
-
-                                        errors.status.message
-
-                                    }
+                                    {errors.status.message}
 
                                 </p>
 
@@ -320,11 +334,7 @@ function AddApplicationForm() {
 
                             type="date"
 
-                            {...register(
-
-                                "appliedDate"
-
-                            )}
+                            {...register("appliedDate")}
 
                         />
 
@@ -334,11 +344,7 @@ function AddApplicationForm() {
 
                                 <p className="text-sm text-red-500">
 
-                                    {
-
-                                        errors.appliedDate.message
-
-                                    }
+                                    {errors.appliedDate.message}
 
                                 </p>
 

@@ -24,6 +24,9 @@ const useApplicationStore = create(
 
             perPage: 10,
 
+            // NEW
+            selectedJob: null,
+
             fetchApplications: async () => {
 
                 set({
@@ -41,7 +44,6 @@ const useApplicationStore = create(
                     set({
 
                         applications:
-
                             response.applications || [],
 
                         loading: false
@@ -57,7 +59,6 @@ const useApplicationStore = create(
                         loading: false,
 
                         error:
-
                             error.response?.data?.error ||
 
                             error.message
@@ -87,7 +88,6 @@ const useApplicationStore = create(
                     set({
 
                         applications:
-
                             response.applications || []
 
                     });
@@ -99,7 +99,6 @@ const useApplicationStore = create(
                     set({
 
                         error:
-
                             error.response?.data?.error ||
 
                             error.message
@@ -165,6 +164,28 @@ const useApplicationStore = create(
                 set({
 
                     page
+
+                }),
+
+            // NEW
+            setSelectedJob: (
+
+                job
+
+            ) =>
+
+                set({
+
+                    selectedJob: job
+
+                }),
+
+            // NEW
+            clearSelectedJob: () =>
+
+                set({
+
+                    selectedJob: null
 
                 })
 
