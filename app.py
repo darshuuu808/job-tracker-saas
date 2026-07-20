@@ -1,3 +1,5 @@
+from api.resume_routes import resume_bp
+
 from flask import (
     Flask,
     send_from_directory
@@ -161,6 +163,9 @@ from api.admin_routes import (
 # -----------------------------
 # Register Blueprints
 # -----------------------------
+app.register_blueprint(
+    resume_bp
+)
 
 app.register_blueprint(
     application_bp_v1

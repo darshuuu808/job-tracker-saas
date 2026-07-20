@@ -1,11 +1,13 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { BarChart3 } from "lucide-react";
 
 import useApplicationStore from "../store/applicationStore";
 import AddApplicationForm from "../forms/AddApplicationForm";
 import ApplicationTable from "../components/ApplicationTable/ApplicationTable";
 import ThemeToggle from "../components/ThemeToggle";
-import { Link } from "react-router-dom";
-import { BarChart3} from "lucide-react";
+import ResumeUpload from "../components/FileUpload/ResumeUpload";
+
 import {
     Card,
     CardContent,
@@ -57,34 +59,29 @@ function Dashboard() {
         filter === "All"
             ? applications
             : applications.filter(
-                (app) =>
-                    app.status === filter
+                (app) => app.status === filter
             );
 
     const total = applications.length;
 
     const applied =
         applications.filter(
-            (a) =>
-                a.status === "Applied"
+            (a) => a.status === "Applied"
         ).length;
 
     const interview =
         applications.filter(
-            (a) =>
-                a.status === "Interview"
+            (a) => a.status === "Interview"
         ).length;
 
     const offer =
         applications.filter(
-            (a) =>
-                a.status === "Offer"
+            (a) => a.status === "Offer"
         ).length;
 
     const rejected =
         applications.filter(
-            (a) =>
-                a.status === "Rejected"
+            (a) => a.status === "Rejected"
         ).length;
 
     if (loading) {
@@ -118,41 +115,53 @@ function Dashboard() {
         );
 
     }
+
     return (
 
         <div className="min-h-screen bg-background">
 
             <div className="max-w-7xl mx-auto p-8">
 
+                {/* Header */}
+
                 <div className="mb-8 flex items-center justify-between">
 
-    <div>
+                    <div>
 
-        <h1 className="text-4xl font-bold text-slate-900 dark:text-white">
-            Job Tracker Dashboard
-        </h1>
+                        <h1 className="text-4xl font-bold text-slate-900 dark:text-white">
 
-        <p className="text-muted-foreground">
-            Manage all your job applications in one place.
-        </p>
+                            Job Tracker Dashboard
 
-    </div>
+                        </h1>
 
-    <div className="flex items-center gap-3">
+                        <p className="text-muted-foreground">
 
-        <Link
-            to="/analytics"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition"
-        >
-            <BarChart3 size={18} />
-            Analytics
-        </Link>
+                            Manage all your job applications in one place.
 
-        <ThemeToggle />
+                        </p>
 
-    </div>
+                    </div>
 
-</div>
+                    <div className="flex items-center gap-3">
+
+                        <Link
+                            to="/analytics"
+                            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition"
+                        >
+
+                            <BarChart3 size={18} />
+
+                            Analytics
+
+                        </Link>
+
+                        <ThemeToggle />
+
+                    </div>
+
+                </div>
+
+                {/* Stats */}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-8">
 
@@ -258,6 +267,30 @@ function Dashboard() {
 
                 </div>
 
+                {/* Resume Upload */}
+
+                <Card className="mb-8">
+
+                    <CardHeader>
+
+                        <CardTitle>
+
+                            Resume Upload
+
+                        </CardTitle>
+
+                    </CardHeader>
+
+                    <CardContent>
+
+                        <ResumeUpload />
+
+                    </CardContent>
+
+                </Card>
+
+                {/* Main Content */}
+
                 <div className="grid lg:grid-cols-3 gap-8">
 
                     <div>
@@ -285,11 +318,8 @@ function Dashboard() {
                                 <div className="mb-6">
 
                                     <Select
-
                                         value={filter}
-
                                         onValueChange={setFilter}
-
                                     >
 
                                         <SelectTrigger className="w-64">
@@ -344,12 +374,12 @@ function Dashboard() {
 
                                 <div className="rounded-lg border overflow-hidden">
 
-                                 <ApplicationTable
-    data={
-        filteredApplications
-    }
-/>
+                                    <ApplicationTable
+                                        data={filteredApplications}
+                                    />
+
                                 </div>
+
                             </CardContent>
 
                         </Card>
