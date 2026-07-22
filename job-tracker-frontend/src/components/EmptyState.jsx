@@ -1,6 +1,7 @@
 import { Inbox } from "lucide-react";
+import { memo } from "react";
 
-export default function EmptyState({
+function EmptyState({
 
     title = "Nothing here",
 
@@ -34,3 +35,5 @@ export default function EmptyState({
     );
 
 }
+
+export default memo(EmptyState);

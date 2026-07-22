@@ -1,12 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { lazy, Suspense } from "react";
 
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Analytics from "./pages/Analytics";
-import Settings from "./pages/Settings";
-import NotFound from "./pages/NotFound";
+const Login = lazy(() => import("./pages/Login"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Analytics = lazy(() => import("./pages/Analytics"));
+const Settings = lazy(() => import("./pages/Settings"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -30,50 +31,68 @@ function AppContent() {
 
     return (
 
-        <Routes>
+        <Suspense
+            fallback={
 
-            <Route
-                path="/login"
-                element={
-                    isAuthenticated
-                        ? <Navigate to="/" replace />
-                        : <Login />
-                }
-            />
+                <div className="min-h-screen flex items-center justify-center">
 
-            <Route
-                path="/"
-                element={
-                    isAuthenticated
-                        ? <Dashboard />
-                        : <Navigate to="/login" replace />
-                }
-            />
+                    <h2 className="text-xl font-semibold">
 
-            <Route
-                path="/analytics"
-                element={
-                    isAuthenticated
-                        ? <Analytics />
-                        : <Navigate to="/login" replace />
-                }
-            />
+                        Loading...
 
-            <Route
-                path="/settings"
-                element={
-                    isAuthenticated
-                        ? <Settings />
-                        : <Navigate to="/login" replace />
-                }
-            />
+                    </h2>
 
-            <Route
-                path="*"
-                element={<NotFound />}
-            />
+                </div>
 
-        </Routes>
+            }
+        >
+
+            <Routes>
+
+                <Route
+                    path="/login"
+                    element={
+                        isAuthenticated
+                            ? <Navigate to="/" replace />
+                            : <Login />
+                    }
+                />
+
+                <Route
+                    path="/"
+                    element={
+                        isAuthenticated
+                            ? <Dashboard />
+                            : <Navigate to="/login" replace />
+                    }
+                />
+
+                <Route
+                    path="/analytics"
+                    element={
+                        isAuthenticated
+                            ? <Analytics />
+                            : <Navigate to="/login" replace />
+                    }
+                />
+
+                <Route
+                    path="/settings"
+                    element={
+                        isAuthenticated
+                            ? <Settings />
+                            : <Navigate to="/login" replace />
+                    }
+                />
+
+                <Route
+                    path="*"
+                    element={<NotFound />}
+                />
+
+            </Routes>
+
+        </Suspense>
 
     );
 

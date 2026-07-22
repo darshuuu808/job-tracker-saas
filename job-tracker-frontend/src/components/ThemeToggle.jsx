@@ -1,7 +1,8 @@
 import { Switch } from "@/components/ui/switch";
 import { useTheme } from "next-themes";
+import { memo } from "react";
 
-export default function ThemeToggle() {
+function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
   return (
@@ -13,3 +14,5 @@ export default function ThemeToggle() {
     />
   );
 }
+
+export default memo(ThemeToggle);

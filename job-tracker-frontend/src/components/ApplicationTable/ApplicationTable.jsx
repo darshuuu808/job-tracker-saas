@@ -1,26 +1,40 @@
 import { useMemo, useState } from "react";
 
 import {
+
     flexRender,
+
     getCoreRowModel,
+
     getFilteredRowModel,
+
     getPaginationRowModel,
+
     getSortedRowModel,
+
     useReactTable
+
 } from "@tanstack/react-table";
 
-import { saveAs } from "file-saver";
-
 import {
+
     Table,
+
     TableBody,
+
     TableCell,
+
     TableHead,
+
     TableHeader,
+
     TableRow
+
 } from "../ui/table";
 
-export default function ApplicationTable({
+import ExportButton from "../ExportButton";
+import { memo } from "react";
+function ApplicationTable({
 
     data = []
 
@@ -126,121 +140,31 @@ export default function ApplicationTable({
 
     });
 
-    const exportCSV = () => {
-
-        const rows = table
-
-            .getFilteredRowModel()
-
-            .rows
-
-            .map(
-
-                row => row.original
-
-            );
-
-        if (rows.length === 0) {
-
-            alert(
-
-                "No applications to export."
-
-            );
-
-            return;
-
-        }
-
-        const headers = [
-
-            "Company",
-
-            "Role",
-
-            "Status",
-
-            "Notes"
-
-        ];
-
-        const csvRows = rows.map(
-
-            app => [
-
-                app.company,
-
-                app.role,
-
-                app.status,
-
-                app.notes || ""
-
-            ]
-
-        );
-
-        const csv = [
-
-            headers,
-
-            ...csvRows
-
-        ]
-
-            .map(
-
-                row =>
-
-                    row.join(",")
-
-            )
-
-            .join("\n");
-
-        const blob = new Blob(
-
-            [
-
-                csv
-
-            ],
-
-            {
-
-                type: "text/csv;charset=utf-8"
-
-            }
-
-        );
-
-        saveAs(
-
-            blob,
-
-            "applications.csv"
-
-        );
-
-    };
-
     return (
 
         <div>
 
-            <div className="flex justify-between items-center mb-5 gap-4">
+            <div className="flex justify-between items-center mb-4">
 
-                <button
+                <ExportButton
 
-                    onClick={exportCSV}
+                    data={
 
-                    className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                        table
 
-                >
+                            .getFilteredRowModel()
 
-                    Export CSV
+                            .rows
 
-                </button>
+                            .map(
+
+                                row => row.original
+
+                            )
+
+                    }
+
+                />
 
                 <input
 
@@ -272,61 +196,131 @@ export default function ApplicationTable({
 
                     {
 
-                        table
+                        table.getHeaderGroups().map(
 
-                            .getHeaderGroups()
+                            headerGroup => (
 
-                            .map(
+                                <TableRow key={headerGroup.id}>
 
-                                headerGroup => (
+                                    {
 
-                                    <TableRow key={headerGroup.id}>
+                                        headerGroup.headers.map(
+
+                                            header => (
+
+                                                <TableHead
+
+                                                    key={header.id}
+
+                                                    className="cursor-pointer"
+
+                                                    onClick={
+
+                                                        header.column.getToggleSortingHandler()
+
+                                                    }
+
+                                                >
+
+                                                    {
+
+                                                        flexRender(
+
+                                                            header.column.columnDef.header,
+
+                                                            header.getContext()
+
+                                                        )
+
+                                                    }
+
+                                                    {{
+
+                                                        asc: " ↑",
+
+                                                        desc: " ↓"
+
+                                                    }[
+
+                                                        header.column.getIsSorted()
+
+                                                    ] ?? ""}
+
+                                                </TableHead>
+
+                                            )
+
+                                        )
+
+                                    }
+
+                                </TableRow>
+
+                            )
+
+                        )
+
+                    }
+
+                </TableHeader>
+
+                <TableBody>
+
+                    {
+
+                        table.getRowModel().rows.length === 0 ?
+
+                        (
+
+                            <TableRow>
+
+                                <TableCell
+
+                                    colSpan={4}
+
+                                    className="text-center py-5"
+
+                                >
+
+                                    No applications found
+
+                                </TableCell>
+
+                            </TableRow>
+
+                        )
+
+                        :
+
+                        (
+
+                            table.getRowModel().rows.map(
+
+                                row => (
+
+                                    <TableRow key={row.id}>
 
                                         {
 
-                                            headerGroup.headers.map(
+                                            row.getVisibleCells().map(
 
-                                                header => (
+                                                cell => (
 
-                                                    <TableHead
-
-                                                        key={header.id}
-
-                                                        onClick={
-
-                                                            header.column.getToggleSortingHandler()
-
-                                                        }
-
-                                                        className="cursor-pointer select-none"
-
-                                                    >
+                                                    <TableCell key={cell.id}>
 
                                                         {
 
                                                             flexRender(
 
-                                                                header.column.columnDef.header,
+                                                                cell.column.columnDef.cell,
 
-                                                                header.getContext()
+                                                                cell.getContext()
 
                                                             )
 
                                                         }
 
-                                                        {{
-
-                                                            asc: " ↑",
-
-                                                            desc: " ↓"
-
-                                                        }[
-
-                                                            header.column.getIsSorted()
-
-                                                        ] ?? ""}
-
-                                                    </TableHead>
+                                                    </TableCell>
 
                                                 )
 
@@ -340,97 +334,7 @@ export default function ApplicationTable({
 
                             )
 
-                    }
-
-                </TableHeader>
-
-                <TableBody>
-
-                    {
-
-                        table
-
-                            .getRowModel()
-
-                            .rows
-
-                            .length === 0 ?
-
-                            (
-
-                                <TableRow>
-
-                                    <TableCell
-
-                                        colSpan={4}
-
-                                        className="text-center py-6"
-
-                                    >
-
-                                        No applications found.
-
-                                    </TableCell>
-
-                                </TableRow>
-
-                            )
-
-                            :
-
-                            (
-
-                                table
-
-                                    .getRowModel()
-
-                                    .rows
-
-                                    .map(
-
-                                        row => (
-
-                                            <TableRow key={row.id}>
-
-                                                {
-
-                                                    row
-
-                                                        .getVisibleCells()
-
-                                                        .map(
-
-                                                            cell => (
-
-                                                                <TableCell key={cell.id}>
-
-                                                                    {
-
-                                                                        flexRender(
-
-                                                                            cell.column.columnDef.cell,
-
-                                                                            cell.getContext()
-
-                                                                        )
-
-                                                                    }
-
-                                                                </TableCell>
-
-                                                            )
-
-                                                        )
-
-                                                }
-
-                                            </TableRow>
-
-                                        )
-
-                                    )
-
-                            )
+                        )
 
                     }
 
@@ -438,7 +342,7 @@ export default function ApplicationTable({
 
             </Table>
 
-            <div className="flex justify-between items-center mt-6">
+            <div className="flex justify-between items-center mt-5">
 
                 <button
 
@@ -454,7 +358,7 @@ export default function ApplicationTable({
 
                     }
 
-                    className="px-4 py-2 border rounded-md disabled:opacity-40"
+                    className="border rounded px-4 py-2 disabled:opacity-50"
 
                 >
 
@@ -466,31 +370,19 @@ export default function ApplicationTable({
 
                     Page{" "}
 
-                    <strong>
+                    {
 
-                        {
+                        table.getState().pagination.pageIndex + 1
 
-                            table
+                    }
 
-                                .getState()
+                    {" "}of{" "}
 
-                                .pagination
+                    {
 
-                                .pageIndex + 1
+                        table.getPageCount()
 
-                        }
-
-                        {" "}of{" "}
-
-                        {
-
-                            table
-
-                                .getPageCount()
-
-                        }
-
-                    </strong>
+                    }
 
                 </span>
 
@@ -508,7 +400,7 @@ export default function ApplicationTable({
 
                     }
 
-                    className="px-4 py-2 border rounded-md disabled:opacity-40"
+                    className="border rounded px-4 py-2 disabled:opacity-50"
 
                 >
 
@@ -523,3 +415,5 @@ export default function ApplicationTable({
     );
 
 }
+
+export default memo(ApplicationTable);

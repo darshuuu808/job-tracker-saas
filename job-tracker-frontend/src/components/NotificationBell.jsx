@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { Bell } from "lucide-react";
-
+import { memo } from "react";
 import useNotifications from "../hooks/useNotifications";
 import {
     markAsRead,
     markAllRead
 } from "../services/notificationService";
 
-export default function NotificationBell() {
+function NotificationBell() {
 
     const {
         notifications,
@@ -207,3 +207,5 @@ export default function NotificationBell() {
     );
 
 }
+
+export default memo(NotificationBell);

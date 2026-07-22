@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { BarChart3, Settings as SettingsIcon } from "lucide-react";
 
@@ -62,36 +62,57 @@ function Dashboard() {
 
     }, []);
 
-    const filteredApplications =
-        filter === "All"
+    const handleFilterChange = useCallback(
+        (value) => {
+            setFilter(value);
+        },
+
+        [setFilter]
+    );
+
+    const filteredApplications = useMemo(() => {
+        
+        
+        return filter === "All"
             ? applications
             : applications.filter(
                   (app) => app.status === filter
               );
 
-    const total = applications.length;
+    }, [applications, filter]);
 
-    const applied =
-        applications.filter(
+    const {
+        total,
+
+        applied,
+
+        interview,
+
+        offer,
+
+        rejected
+
+    } = useMemo(() => ({
+
+        total: applications.length,
+
+        applied: applications.filter(
             (a) => a.status === "Applied"
-        ).length;
+        ).length,
 
-    const interview =
-        applications.filter(
+        interview: applications.filter(
             (a) => a.status === "Interview"
-        ).length;
+        ).length,
 
-    const offer =
-        applications.filter(
+        offer: applications.filter(
             (a) => a.status === "Offer"
-        ).length;
+        ).length,
 
-    const rejected =
-        applications.filter(
+        rejected: applications.filter(
             (a) => a.status === "Rejected"
-        ).length;
+        ).length
 
-    throw new Error("Testing Error Boundary");
+    }), [applications]);
 
     if (loading) {
 
@@ -363,7 +384,7 @@ function Dashboard() {
 
                                     <Select
                                         value={filter}
-                                        onValueChange={setFilter}
+                                        onValueChange={handleFilterChange}
                                     >
 
                                         <SelectTrigger className="w-64">
