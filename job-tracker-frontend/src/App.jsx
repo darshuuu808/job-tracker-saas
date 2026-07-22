@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Analytics from "./pages/Analytics";
 import Settings from "./pages/Settings";
+import NotFound from "./pages/NotFound";
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -16,9 +17,13 @@ function AppContent() {
     if (loading) {
 
         return (
+
             <div className="min-h-screen flex items-center justify-center">
+
                 Loading...
+
             </div>
+
         );
 
     }
@@ -65,12 +70,7 @@ function AppContent() {
 
             <Route
                 path="*"
-                element={
-                    <Navigate
-                        to={isAuthenticated ? "/" : "/login"}
-                        replace
-                    />
-                }
+                element={<NotFound />}
             />
 
         </Routes>

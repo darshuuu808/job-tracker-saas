@@ -7,7 +7,7 @@ import useApplicationStore from "../store/applicationStore";
 import AddApplicationForm from "../forms/AddApplicationForm";
 
 import ApplicationTable from "../components/ApplicationTable/ApplicationTable";
-
+import EmptyState from "../components/EmptyState";
 import ThemeToggle from "../components/ThemeToggle";
 import NotificationBell from "../components/NotificationBell";
 
@@ -90,6 +90,8 @@ function Dashboard() {
         applications.filter(
             (a) => a.status === "Rejected"
         ).length;
+
+    throw new Error("Testing Error Boundary");
 
     if (loading) {
 
@@ -401,14 +403,26 @@ function Dashboard() {
                                     </Select>
 
                                 </div>
+{
+    filteredApplications.length === 0 ? (
 
-                                <div className="rounded-lg border overflow-hidden">
+        <EmptyState
+            title="No Applications Yet"
+            description="Start by adding your first job application."
+        />
 
-                                    <ApplicationTable
-                                        data={filteredApplications}
-                                    />
+    ) : (
 
-                                </div>
+        <div className="rounded-lg border overflow-hidden">
+
+            <ApplicationTable
+                data={filteredApplications}
+            />
+
+        </div>
+
+    )
+}
 
                             </CardContent>
 
