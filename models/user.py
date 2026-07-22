@@ -47,6 +47,23 @@ class User(db.Model):
         default=Role.USER
     )
 
+    # ==========================
+    # Day 33 - User Settings
+    # ==========================
+
+    timezone = db.Column(
+        db.String(100),
+        nullable=False,
+        default="Asia/Kolkata"
+    )
+
+    webhook_url = db.Column(
+        db.String(500),
+        nullable=True
+    )
+
+    # ==========================
+
     applications = db.relationship(
         "JobApplication",
         backref="user",
@@ -74,6 +91,24 @@ class User(db.Model):
                 password
             )
         )
+
+    def to_dict(self):
+
+        return {
+
+            "id": self.id,
+
+            "username": self.username,
+
+            "email": self.email,
+
+            "role": self.role.value,
+
+            "timezone": self.timezone,
+
+            "webhook_url": self.webhook_url
+
+        }
 
     def __repr__(self):
 

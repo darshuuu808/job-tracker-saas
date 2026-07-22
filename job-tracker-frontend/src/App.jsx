@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Analytics from "./pages/Analytics";
+import Settings from "./pages/Settings";
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -30,7 +31,7 @@ function AppContent() {
                 path="/login"
                 element={
                     isAuthenticated
-                        ? <Navigate to="/" />
+                        ? <Navigate to="/" replace />
                         : <Login />
                 }
             />
@@ -40,7 +41,7 @@ function AppContent() {
                 element={
                     isAuthenticated
                         ? <Dashboard />
-                        : <Navigate to="/login" />
+                        : <Navigate to="/login" replace />
                 }
             />
 
@@ -49,7 +50,26 @@ function AppContent() {
                 element={
                     isAuthenticated
                         ? <Analytics />
-                        : <Navigate to="/login" />
+                        : <Navigate to="/login" replace />
+                }
+            />
+
+            <Route
+                path="/settings"
+                element={
+                    isAuthenticated
+                        ? <Settings />
+                        : <Navigate to="/login" replace />
+                }
+            />
+
+            <Route
+                path="*"
+                element={
+                    <Navigate
+                        to={isAuthenticated ? "/" : "/login"}
+                        replace
+                    />
                 }
             />
 

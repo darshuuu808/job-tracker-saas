@@ -11,6 +11,7 @@ from flask_jwt_extended import (
     get_jwt_identity,
     get_jwt
 )
+from models.user import User
 
 from models.token_blocklist import (
     TokenBlocklist
@@ -18,8 +19,17 @@ from models.token_blocklist import (
 
 from extensions import db
 
-from models.user import User
 
+def get_current_user():
+
+    current_user_id = get_jwt_identity()
+
+    user = User.query.get(int(current_user_id))
+
+    if not user:
+        return None
+
+    return user
 
 auth_bp = Blueprint(
     "auth",
@@ -164,6 +174,189 @@ def login():
         }
     )
 
+@auth_bp.route(
+    "/profile",
+    methods=["GET"]
+)
+@jwt_required()
+def profile():
+
+    user = get_current_user()
+
+    if not user:
+
+        return jsonify(
+            {"error": "User not found"}
+        ), 404
+
+    return jsonify({
+
+        "id": user.id,
+
+        "username": user.username,
+
+        "email": user.email,
+
+        "role": user.role.value,
+
+        "timezone": user.timezone,
+
+        "webhook_url": user.webhook_url
+
+    })
+
+@auth_bp.route(
+    "/profile",
+    methods=["PUT"]
+)
+@jwt_required()
+def update_profile():
+
+    user = get_current_user()
+
+    if not user:
+
+        return jsonify(
+            {
+                "error": "User not found"
+            }
+        ), 404
+
+    data = request.get_json()
+
+    if "username" in data:
+
+        existing = User.query.filter(
+            User.username == data["username"],
+            User.id != user.id
+        ).first()
+
+        if existing:
+
+            return jsonify(
+                {
+                    "error": "Username already exists"
+                }
+            ), 400
+
+        user.username = data["username"]
+
+    if "email" in data:
+
+        existing = User.query.filter(
+            User.email == data["email"],
+            User.id != user.id
+        ).first()
+
+        if existing:
+
+            return jsonify(
+                {
+                    "error": "Email already exists"
+                }
+            ), 400
+
+        user.email = data["email"]
+
+    if "timezone" in data:
+
+        user.timezone = data["timezone"]
+
+    db.session.commit()
+
+    return jsonify(
+        {
+            "message": "Profile updated successfully"
+        }
+    )
+
+@auth_bp.route(
+    "/profile/password",
+    methods=["PUT"]
+)
+@jwt_required()
+def change_password():
+
+    user = get_current_user()
+
+    if not user:
+
+        return jsonify(
+            {"error": "User not found"}
+        ), 404
+
+    data = request.get_json()
+
+    current_password = data.get("current_password")
+    new_password = data.get("new_password")
+
+    if not current_password or not new_password:
+        return jsonify({
+            "error": "Current password and new password are required"
+        }), 400
+
+    if not user.check_password(current_password):
+        return jsonify({
+            "error": "Current password is incorrect"
+        }), 400
+
+    user.set_password(new_password)
+
+    db.session.commit()
+
+    return jsonify({
+        "message": "Password updated successfully"
+    })
+
+@auth_bp.route(
+    "/profile/webhook",
+    methods=["PUT"]
+)
+@jwt_required()
+def update_webhook():
+
+    user = get_current_user()
+
+    if not user:
+
+        return jsonify(
+            {"error": "User not found"}
+        ), 404
+
+    data = request.get_json()
+
+    user.webhook_url = data.get(
+        "webhook_url"
+    )
+
+    db.session.commit()
+
+    return jsonify({
+        "message": "Webhook updated successfully"
+    })
+
+@auth_bp.route(
+    "/profile",
+    methods=["DELETE"]
+)
+@jwt_required()
+def delete_account():
+
+    user = get_current_user()
+
+    if not user:
+
+        return jsonify(
+            {"error": "User not found"}
+        ), 404
+
+    db.session.delete(user)
+
+    db.session.commit()
+
+    return jsonify({
+        "message": "Account deleted successfully"
+    })
 
 @auth_bp.route(
     "/refresh",
@@ -188,43 +381,6 @@ def refresh():
             access_token
         }
     )
-
-
-@auth_bp.route(
-    "/profile",
-    methods=["GET"]
-)
-@jwt_required()
-def profile():
-
-    current_user_id = (
-        get_jwt_identity()
-    )
-
-    user = User.query.get(
-        int(current_user_id)
-    )
-
-    if not user:
-
-        return jsonify(
-            {
-                "error":
-                "User not found"
-            }
-        ), 404
-
-    return jsonify(
-        {
-            "id":
-            user.id,
-            "username":
-            user.username,
-            "email":
-            user.email
-        }
-    )
-
 
 @auth_bp.route(
     "/logout",

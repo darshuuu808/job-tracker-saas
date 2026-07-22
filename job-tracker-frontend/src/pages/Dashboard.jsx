@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { BarChart3 } from "lucide-react";
+import { BarChart3, Settings as SettingsIcon } from "lucide-react";
 
 import useApplicationStore from "../store/applicationStore";
 
@@ -66,8 +66,8 @@ function Dashboard() {
         filter === "All"
             ? applications
             : applications.filter(
-                (app) => app.status === filter
-            );
+                  (app) => app.status === filter
+              );
 
     const total = applications.length;
 
@@ -161,6 +161,17 @@ function Dashboard() {
                             <BarChart3 size={18} />
 
                             Analytics
+
+                        </Link>
+
+                        <Link
+                            to="/settings"
+                            className="inline-flex items-center gap-2 rounded-lg bg-slate-700 px-4 py-2 text-white hover:bg-slate-800 transition"
+                        >
+
+                            <SettingsIcon size={18} />
+
+                            Settings
 
                         </Link>
 
@@ -349,11 +360,8 @@ function Dashboard() {
                                 <div className="mb-6">
 
                                     <Select
-
                                         value={filter}
-
                                         onValueChange={setFilter}
-
                                     >
 
                                         <SelectTrigger className="w-64">
@@ -365,39 +373,27 @@ function Dashboard() {
                                         <SelectContent>
 
                                             <SelectItem value="All">
-
                                                 All
-
                                             </SelectItem>
 
                                             <SelectItem value="Applied">
-
                                                 Applied
-
                                             </SelectItem>
 
                                             <SelectItem value="Phone Screen">
-
                                                 Phone Screen
-
                                             </SelectItem>
 
                                             <SelectItem value="Interview">
-
                                                 Interview
-
                                             </SelectItem>
 
                                             <SelectItem value="Offer">
-
                                                 Offer
-
                                             </SelectItem>
 
                                             <SelectItem value="Rejected">
-
                                                 Rejected
-
                                             </SelectItem>
 
                                         </SelectContent>
