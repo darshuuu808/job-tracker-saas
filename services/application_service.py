@@ -4,6 +4,8 @@ import bleach
 
 from sqlalchemy import func
 
+from services.notification_service import create_notification
+
 from extensions import db
 
 from models.job_application import (
@@ -122,6 +124,12 @@ class ApplicationService:
         )
 
         db.session.commit()
+        
+        create_notification(
+            title="Application Added",
+            message=f"{application.role} at {application.company}",
+            notification_type="success"
+        )
 
         logger.info(
             f"Created application for {company}"
@@ -201,6 +209,11 @@ class ApplicationService:
 
         db.session.commit()
 
+        create_notification(
+            title="Application Updated",
+            message=f"{application.company} → {application.status.value}",
+            notification_type="info"
+        )
         if old_status != application.status:
 
             payload = {
@@ -245,6 +258,8 @@ class ApplicationService:
             )
         )
 
+        company = application.company 
+
         if (
 
             application.resume_path
@@ -266,6 +281,13 @@ class ApplicationService:
         )
 
         db.session.commit()
+        
+        create_notification(
+            title="Application Deleted",
+            message=company,
+            notification_type="warning"
+        )
+
 
         logger.info(
             f"Deleted application {application.id}"

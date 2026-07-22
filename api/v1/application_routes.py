@@ -1,3 +1,4 @@
+from services.notification_service import create_notification
 from flask import (
     Blueprint,
     request,

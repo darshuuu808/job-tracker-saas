@@ -9,6 +9,7 @@ import AddApplicationForm from "../forms/AddApplicationForm";
 import ApplicationTable from "../components/ApplicationTable/ApplicationTable";
 
 import ThemeToggle from "../components/ThemeToggle";
+import NotificationBell from "../components/NotificationBell";
 
 import ResumeUpload from "../components/FileUpload/ResumeUpload";
 
@@ -148,7 +149,9 @@ function Dashboard() {
 
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-5">
+
+                        <NotificationBell />
 
                         <Link
                             to="/analytics"
@@ -295,7 +298,7 @@ function Dashboard() {
 
                 </Card>
 
-                {/* NEW - Job Search */}
+                {/* Job Search */}
 
                 <Card className="mb-8">
 
