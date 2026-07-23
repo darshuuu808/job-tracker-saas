@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 import {
@@ -10,6 +11,8 @@ import {
 } from "../services/profileService";
 
 export default function Settings() {
+
+    const { t } = useTranslation();
 
     const [profile, setProfile] = useState({
         username: "",
@@ -36,7 +39,7 @@ export default function Settings() {
 
         } catch {
 
-            toast.error("Failed to load profile");
+            toast.error(t("profileLoadFailed"));
 
         }
     };
@@ -55,11 +58,11 @@ export default function Settings() {
 
             });
 
-            toast.success("Profile updated");
+            toast.success(t("profileUpdated"));
 
         } catch {
 
-            toast.error("Failed to update profile");
+            toast.error(t("profileUpdateFailed"));
 
         }
 
@@ -71,7 +74,7 @@ export default function Settings() {
 
             await changePassword(password);
 
-            toast.success("Password changed");
+            toast.success(t("passwordChanged"));
 
             setPassword({
 
@@ -83,7 +86,7 @@ export default function Settings() {
 
         } catch {
 
-            toast.error("Failed to change password");
+            toast.error(t("passwordChangeFailed"));
 
         }
 
@@ -99,11 +102,11 @@ export default function Settings() {
 
             });
 
-            toast.success("Webhook updated");
+            toast.success(t("webhookUpdated"));
 
         } catch {
 
-            toast.error("Failed to update webhook");
+            toast.error(t("webhookUpdateFailed"));
 
         }
 
@@ -111,7 +114,7 @@ export default function Settings() {
 
     const removeAccount = async () => {
 
-        if (!window.confirm("Delete your account permanently?"))
+        if (!window.confirm(t("confirmDeleteAccount")))
             return;
 
         try {
@@ -124,7 +127,7 @@ export default function Settings() {
 
         } catch {
 
-            toast.error("Failed to delete account");
+            toast.error(t("accountDeleteFailed"));
 
         }
 
@@ -135,7 +138,7 @@ export default function Settings() {
         <div className="max-w-4xl mx-auto p-8">
 
             <h1 className="text-3xl font-bold mb-8">
-                Settings
+                {t("settings")}
             </h1>
 
             <div className="space-y-8">
@@ -143,12 +146,12 @@ export default function Settings() {
                 <div className="border rounded-xl p-6">
 
                     <h2 className="text-xl font-semibold mb-5">
-                        Profile
+                        {t("profile")}
                     </h2>
 
                     <input
                         className="border rounded w-full p-3 mb-4"
-                        placeholder="Username"
+                        placeholder={t("username")}
                         value={profile.username}
                         onChange={(e) =>
                             setProfile({
@@ -160,7 +163,7 @@ export default function Settings() {
 
                     <input
                         className="border rounded w-full p-3 mb-4"
-                        placeholder="Email"
+                        placeholder={t("email")}
                         value={profile.email}
                         onChange={(e) =>
                             setProfile({
@@ -172,7 +175,7 @@ export default function Settings() {
 
                     <input
                         className="border rounded w-full p-3 mb-4"
-                        placeholder="Timezone"
+                        placeholder={t("timezone")}
                         value={profile.timezone}
                         onChange={(e) =>
                             setProfile({
@@ -186,7 +189,7 @@ export default function Settings() {
                         onClick={saveProfile}
                         className="bg-blue-600 text-white px-5 py-2 rounded"
                     >
-                        Save Profile
+                        {t("saveChanges")}
                     </button>
 
                 </div>
@@ -194,13 +197,13 @@ export default function Settings() {
                 <div className="border rounded-xl p-6">
 
                     <h2 className="text-xl font-semibold mb-5">
-                        Change Password
+                        {t("changePassword")}
                     </h2>
 
                     <input
                         type="password"
                         className="border rounded w-full p-3 mb-4"
-                        placeholder="Current Password"
+                        placeholder={t("currentPassword")}
                         value={password.current_password}
                         onChange={(e) =>
                             setPassword({
@@ -213,7 +216,7 @@ export default function Settings() {
                     <input
                         type="password"
                         className="border rounded w-full p-3 mb-4"
-                        placeholder="New Password"
+                        placeholder={t("newPassword")}
                         value={password.new_password}
                         onChange={(e) =>
                             setPassword({
@@ -227,7 +230,7 @@ export default function Settings() {
                         onClick={savePassword}
                         className="bg-green-600 text-white px-5 py-2 rounded"
                     >
-                        Change Password
+                        {t("changePassword")}
                     </button>
 
                 </div>
@@ -235,12 +238,12 @@ export default function Settings() {
                 <div className="border rounded-xl p-6">
 
                     <h2 className="text-xl font-semibold mb-5">
-                        Webhook
+                        {t("webhook")}
                     </h2>
 
                     <input
                         className="border rounded w-full p-3 mb-4"
-                        placeholder="Webhook URL"
+                        placeholder={t("webhookUrl")}
                         value={profile.webhook_url || ""}
                         onChange={(e) =>
                             setProfile({
@@ -254,7 +257,7 @@ export default function Settings() {
                         onClick={saveWebhook}
                         className="bg-purple-600 text-white px-5 py-2 rounded"
                     >
-                        Save Webhook
+                        {t("saveWebhook")}
                     </button>
 
                 </div>
@@ -262,14 +265,14 @@ export default function Settings() {
                 <div className="border rounded-xl border-red-400 p-6">
 
                     <h2 className="text-xl font-semibold text-red-600 mb-5">
-                        Danger Zone
+                        {t("dangerZone")}
                     </h2>
 
                     <button
                         onClick={removeAccount}
                         className="bg-red-600 text-white px-5 py-2 rounded"
                     >
-                        Delete Account
+                        {t("deleteAccount")}
                     </button>
 
                 </div>

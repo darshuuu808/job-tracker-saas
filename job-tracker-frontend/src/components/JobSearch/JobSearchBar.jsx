@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import useDebounce from "../../hooks/useDebounce";
 import { searchJobs } from "../../services/jobSearchService";
@@ -6,6 +7,8 @@ import { searchJobs } from "../../services/jobSearchService";
 import JobList from "./JobList";
 
 export default function JobSearchBar() {
+
+    const { t } = useTranslation();
 
     const [query, setQuery] = useState("");
 
@@ -68,7 +71,7 @@ export default function JobSearchBar() {
 
                 type="text"
 
-                placeholder="Search jobs..."
+                placeholder={t("searchJobs")}
 
                 value={query}
 
@@ -86,7 +89,17 @@ export default function JobSearchBar() {
 
                 <p>
 
-                    Searching...
+                    {t("search")}...
+
+                </p>
+
+            )}
+
+            {!loading && debouncedQuery.trim() && jobs.length === 0 && (
+
+                <p className="text-muted-foreground">
+
+                    {t("noJobsFound")}
 
                 </p>
 

@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { uploadResume } from "../../services/resumeService";
 import { Label } from "@/components/ui/label";
 
 export default function ResumeUpload() {
+
+    const { t } = useTranslation();
 
     const [file, setFile] = useState(null);
     const [uploading, setUploading] = useState(false);
@@ -16,7 +19,7 @@ export default function ResumeUpload() {
 
         if (selected.type !== "application/pdf") {
 
-            alert("Please upload a PDF.");
+            alert(t("pdfOnly"));
 
             return;
 
@@ -51,14 +54,14 @@ export default function ResumeUpload() {
             );
 
             alert(
-                "Resume uploaded successfully!"
+                t("resumeUploaded")
             );
 
         } catch (err) {
 
             console.error(err);
 
-            alert("Upload failed.");
+            alert(t("uploadFailed"));
 
         } finally {
 
@@ -74,13 +77,13 @@ export default function ResumeUpload() {
 
             <h2 className="text-xl font-bold mb-4">
 
-                Upload Resume
+                {t("resumeUpload")}
 
             </h2>
 
             <Label htmlFor="resume-upload">
 
-                Choose PDF Resume
+                {t("chooseFile")}
 
             </Label>
 
@@ -98,13 +101,13 @@ export default function ResumeUpload() {
 
                     <p>
 
-                        <strong>File:</strong> {file.name}
+                        <strong>{t("file")}:</strong> {file.name}
 
                     </p>
 
                     <p>
 
-                        <strong>Size:</strong>{" "}
+                        <strong>{t("size")}:</strong>{" "}
                         {(file.size / 1024).toFixed(2)} KB
 
                     </p>

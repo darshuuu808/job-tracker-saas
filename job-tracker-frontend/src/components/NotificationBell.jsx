@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Bell } from "lucide-react";
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 
 import useNotifications from "../hooks/useNotifications";
 
@@ -10,6 +11,8 @@ import {
 } from "../services/notificationService";
 
 function NotificationBell() {
+
+    const { t, i18n } = useTranslation();
 
     const {
         notifications,
@@ -100,7 +103,7 @@ function NotificationBell() {
 
             <button
                 type="button"
-                aria-label={`Notifications${unread > 0 ? `, ${unread} unread` : ""}`}
+                aria-label={`${t("notifications")}${unread > 0 ? `, ${unread} ${t("unread")}` : ""}`}
                 aria-haspopup="menu"
                 aria-expanded={open}
                 aria-controls="notification-menu"
@@ -145,7 +148,7 @@ function NotificationBell() {
                 <div
                     id="notification-menu"
                     role="menu"
-                    aria-label="Notifications"
+                    aria-label={t("notifications")}
                     className="
                         absolute
                         right-0
@@ -163,7 +166,7 @@ function NotificationBell() {
 
                         <h3 className="font-semibold">
 
-                            Notifications
+                            {t("notifications")}
 
                         </h3>
 
@@ -175,7 +178,7 @@ function NotificationBell() {
                                 className="text-sm text-blue-600 hover:underline"
                             >
 
-                                Mark all read
+                                {t("markAllRead")}
 
                             </button>
 
@@ -189,7 +192,7 @@ function NotificationBell() {
 
                             <div className="p-6 text-center text-muted-foreground">
 
-                                No notifications
+                                {t("noNotifications")}
 
                             </div>
 
@@ -225,7 +228,7 @@ function NotificationBell() {
 
                                         {new Date(
                                             notification.created_at
-                                        ).toLocaleString()}
+                                        ).toLocaleString(i18n.language)}
 
                                     </p>
 

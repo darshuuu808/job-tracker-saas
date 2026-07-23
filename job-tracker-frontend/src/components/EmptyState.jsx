@@ -1,13 +1,16 @@
 import { Inbox } from "lucide-react";
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 
 function EmptyState({
 
-    title = "Nothing here",
+    title,
 
-    description = "No data available yet."
+    description
 
 }) {
+
+    const { t } = useTranslation();
 
     return (
 
@@ -20,13 +23,13 @@ function EmptyState({
 
             <h2 className="text-2xl font-semibold text-slate-700 dark:text-slate-200">
 
-                {title}
+                {title ?? t("nothingHere")}
 
             </h2>
 
             <p className="mt-2 text-slate-500 dark:text-slate-400">
 
-                {description}
+                {description ?? t("noDataAvailable")}
 
             </p>
 

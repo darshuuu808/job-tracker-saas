@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -28,6 +29,8 @@ import {
 } from "@/components/ui/select";
 
 function AddApplicationForm() {
+
+    const { t } = useTranslation();
 
     const addApplication = useApplicationStore(
         (state) => state.addApplication
@@ -82,7 +85,7 @@ function AddApplicationForm() {
             await addApplication(data);
 
             toast.success(
-                "Application added successfully!"
+                t("applicationAdded")
             );
 
             reset();
@@ -92,7 +95,7 @@ function AddApplicationForm() {
             toast.error(
                 error.response?.data?.error ||
                 error.message ||
-                "Unable to add application."
+                t("applicationFailed")
             );
 
         }
@@ -107,13 +110,13 @@ function AddApplicationForm() {
 
                 <CardTitle>
 
-                    Add Job Application
+                    {t("addApplication")}
 
                 </CardTitle>
 
                 <CardDescription>
 
-                    Track your latest applications
+                    {t("trackApplications")}
 
                 </CardDescription>
 
@@ -130,13 +133,13 @@ function AddApplicationForm() {
 
                         <Label htmlFor="company">
 
-                            Company
+                            {t("company")}
 
                         </Label>
 
                         <Input
                             id="company"
-                            placeholder="Google"
+                            placeholder={t("company")}
                             aria-describedby={
                                 errors.company
                                     ? "company-error"
@@ -164,13 +167,13 @@ function AddApplicationForm() {
 
                         <Label htmlFor="role">
 
-                            Role
+                            {t("role")}
 
                         </Label>
 
                         <Input
                             id="role"
-                            placeholder="Software Engineer"
+                            placeholder={t("role")}
                             aria-describedby={
                                 errors.role
                                     ? "role-error"
@@ -198,7 +201,7 @@ function AddApplicationForm() {
 
                         <Label htmlFor="status">
 
-                            Status
+                            {t("status")}
 
                         </Label>
 
@@ -221,7 +224,7 @@ function AddApplicationForm() {
                             >
 
                                 <SelectValue
-                                    placeholder="Select Status"
+                                    placeholder={t("filterStatus")}
                                 />
 
                             </SelectTrigger>
@@ -281,7 +284,7 @@ function AddApplicationForm() {
 
                         <Label htmlFor="appliedDate">
 
-                            Applied Date
+                            {t("appliedDate")}
 
                         </Label>
 
@@ -315,14 +318,14 @@ function AddApplicationForm() {
 
                         <Label htmlFor="notes">
 
-                            Notes
+                            {t("notes")}
 
                         </Label>
 
                         <Textarea
                             id="notes"
                             rows={4}
-                            placeholder="Additional notes..."
+                            placeholder={t("notes")}
                             {...register("notes")}
                         />
 
@@ -335,8 +338,8 @@ function AddApplicationForm() {
                     >
 
                         {isSubmitting
-                            ? "Adding..."
-                            : "Add Application"}
+                            ? t("adding")
+                            : t("add")}
 
                     </Button>
 

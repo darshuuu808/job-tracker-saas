@@ -1,0 +1,91 @@
+{
+    "dashboard": "జాబ్ ట్రాకర్ డాష్‌బోర్డ్",
+    "manageApplications": "మీ ఉద్యోగ దరఖాస్తులను ఒకే చోట నిర్వహించండి.",
+    "analytics": "విశ్లేషణలు",
+    "settings": "సెట్టింగ్స్",
+
+    "total": "మొత్తం",
+    "applied": "దరఖాస్తు చేసినవి",
+    "interview": "ఇంటర్వ్యూ",
+    "offer": "ఆఫర్",
+    "rejected": "తిరస్కరించబడినవి",
+
+    "resumeUpload": "రెజ్యూమ్ అప్లోడ్",
+    "jobSearch": "ఉద్యోగ శోధన",
+
+    "applications": "దరఖాస్తులు",
+
+    "filterStatus": "స్థితి ప్రకారం ఫిల్టర్",
+
+    "addApplication": "ఉద్యోగ దరఖాస్తు జోడించండి",
+    "trackApplications": "మీ తాజా దరఖాస్తులను ట్రాక్ చేయండి",
+
+    "company": "కంపెనీ",
+    "role": "పాత్ర",
+    "status": "స్థితి",
+    "appliedDate": "దరఖాస్తు చేసిన తేదీ",
+    "notes": "గమనికలు",
+
+    "add": "దరఖాస్తు జోడించండి",
+    "adding": "జోడిస్తోంది...",
+
+    "applicationAdded": "దరఖాస్తు విజయవంతంగా జోడించబడింది!",
+    "applicationFailed": "దరఖాస్తును జోడించడం సాధ్యపడలేదు.",
+
+    "chooseFile": "PDF రెజ్యూమ్‌ను ఎంచుకోండి",
+    "pdfOnly": "దయచేసి PDF ఫైల్‌ను అప్‌లోడ్ చేయండి.",
+    "file": "ఫైల్",
+    "size": "పరిమాణం",
+    "resumeUploaded": "రెజ్యూమ్ విజయవంతంగా అప్‌లోడ్ చేయబడింది!",
+    "uploadFailed": "అప్‌లోడ్ విఫలమైంది.",
+
+    "searchJobs": "ఉద్యోగాలను శోధించండి...",
+    "search": "శోధించు",
+    "noJobsFound": "ఉద్యోగాలు కనుగొనబడలేదు.",
+
+    "nothingHere": "ఇక్కడ ఏమీ లేదు",
+    "noDataAvailable": "ఇంకా డేటా అందుబాటులో లేదు.",
+    "noApplicationsYet": "ఇంకా దరఖాస్తులు లేవు",
+    "startAddingApplication": "మీ మొదటి ఉద్యోగ దరఖాస్తును జోడించడం ద్వారా ప్రారంభించండి.",
+
+    "analyticsDashboard": "అనలిటిక్స్ డాష్‌బోర్డ్",
+    "monitorApplications": "మీ దరఖాస్తులు మరియు నియామక పురోగతిని పర్యవేక్షించండి.",
+    "analyticsLoadFailed": "అనలిటిక్స్‌ను లోడ్ చేయడంలో విఫలమైంది.",
+    "noAnalyticsAvailable": "అనలిటిక్స్ అందుబాటులో లేదు",
+    "addApplicationsToSeeInsights": "అంతర్దృష్టులను చూడటానికి ఉద్యోగ దరఖాస్తులను జోడించండి.",
+    "statusDistribution": "దరఖాస్తు స్థితి పంపిణీ",
+    "weeklyApplications": "వారపు దరఖాస్తులు",
+
+    "profile": "ప్రొఫైల్",
+    "username": "వినియోగదారు పేరు",
+    "email": "ఇమెయిల్",
+    "timezone": "టైమ్‌జోన్",
+    "saveChanges": "ప్రొఫైల్‌ను సేవ్ చేయండి",
+    "changePassword": "పాస్‌వర్డ్ మార్చండి",
+    "currentPassword": "ప్రస్తుత పాస్‌వర్డ్",
+    "newPassword": "కొత్త పాస్‌వర్డ్",
+    "webhook": "వెబ్‌హుక్",
+    "webhookUrl": "వెబ్‌హుక్ URL",
+    "saveWebhook": "వెబ్‌హుక్‌ను సేవ్ చేయండి",
+    "dangerZone": "డేంజర్ జోన్",
+    "deleteAccount": "ఖాతాను తొలగించండి",
+    "confirmDeleteAccount": "మీ ఖాతాను శాశ్వతంగా తొలగించాలా?",
+    "profileLoadFailed": "ప్రొఫైల్‌ను లోడ్ చేయడంలో విఫలమైంది",
+    "profileUpdated": "ప్రొఫైల్ నవీకరించబడింది",
+    "profileUpdateFailed": "ప్రొఫైల్‌ను నవీకరించడంలో విఫలమైంది",
+    "passwordChanged": "పాస్‌వర్డ్ మార్చబడింది",
+    "passwordChangeFailed": "పాస్‌వర్డ్‌ను మార్చడంలో విఫలమైంది",
+    "webhookUpdated": "వెబ్‌హుక్ నవీకరించబడింది",
+    "webhookUpdateFailed": "వెబ్‌హుక్‌ను నవీకరించడంలో విఫలమైంది",
+    "accountDeleteFailed": "ఖాతాను తొలగించడంలో విఫలమైంది",
+
+    "notifications": "నోటిఫికేషన్లు",
+    "unread": "చదవనివి",
+    "markAllRead": "అన్నింటినీ చదివినట్లు గుర్తించు",
+    "noNotifications": "నోటిఫికేషన్లు లేవు",
+    "status_Applied": "దరఖాస్తు చేసినవి",
+    "status_Phone Screen": "ఫోన్ స్క్రీన్",
+    "status_Interview": "ఇంటర్వ్యూ",
+    "status_Offer": "ఆఫర్",
+    "status_Rejected": "తిరస్కరించబడినవి"
+}

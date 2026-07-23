@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { LayoutDashboard, BarChart3 } from "lucide-react";
 
@@ -20,6 +21,8 @@ import {
 
 export default function Analytics() {
 
+    const { t } = useTranslation();
+
     const [analytics, setAnalytics] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -38,7 +41,7 @@ export default function Analytics() {
 
                 console.error(err);
 
-                setError("Failed to load analytics.");
+                setError(t("analyticsLoadFailed"));
 
             } finally {
 
@@ -50,7 +53,7 @@ export default function Analytics() {
 
         loadAnalytics();
 
-    }, []);
+    }, [t]);
 
     if (loading) {
 
@@ -96,13 +99,13 @@ export default function Analytics() {
 
                                 <h1 className="text-4xl font-bold">
 
-                                    Analytics Dashboard
+                                    {t("analyticsDashboard")}
 
                                 </h1>
 
                                 <p className="text-muted-foreground mt-1">
 
-                                    Monitor your applications and hiring progress.
+                                    {t("monitorApplications")}
 
                                 </p>
 
@@ -121,7 +124,7 @@ export default function Analytics() {
 
                             <LayoutDashboard size={18} />
 
-                            Dashboard
+                            {t("dashboard")}
 
                         </Link>
 
@@ -147,13 +150,13 @@ export default function Analytics() {
 
                             <h3 className="text-xl font-semibold">
 
-                                No Analytics Available
+                                {t("noAnalyticsAvailable")}
 
                             </h3>
 
                             <p className="text-muted-foreground mt-2">
 
-                                Add job applications to start seeing insights.
+                                {t("addApplicationsToSeeInsights")}
 
                             </p>
 
@@ -171,7 +174,7 @@ export default function Analytics() {
 
                                 <CardTitle>
 
-                                    Application Status Distribution
+                                    {t("statusDistribution")}
 
                                 </CardTitle>
 
@@ -193,7 +196,7 @@ export default function Analytics() {
 
                                 <CardTitle>
 
-                                    Weekly Applications
+                                    {t("weeklyApplications")}
 
                                 </CardTitle>
 

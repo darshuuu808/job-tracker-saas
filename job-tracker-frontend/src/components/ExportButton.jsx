@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { saveAs } from "file-saver";
 
 export default function ExportButton({
@@ -6,11 +7,13 @@ export default function ExportButton({
 
 }) {
 
+    const { t } = useTranslation();
+
     const exportCSV = () => {
 
         if (data.length === 0) {
 
-            alert("No applications to export.");
+            alert(t("noApplicationsToExport"));
 
             return;
 
@@ -18,13 +21,13 @@ export default function ExportButton({
 
         const headers = [
 
-            "Company",
+            t("company"),
 
-            "Role",
+            t("role"),
 
-            "Status",
+            t("status"),
 
-            "Notes"
+            t("notes")
 
         ];
 
@@ -98,7 +101,7 @@ export default function ExportButton({
 
         >
 
-            Export CSV
+            {t("exportCSV")}
 
         </button>
 

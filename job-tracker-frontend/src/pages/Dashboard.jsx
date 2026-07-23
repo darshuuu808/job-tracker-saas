@@ -1,4 +1,6 @@
+import LanguageSwitcher from "../components/LanguageSwitcher/LanguageSwitcher";
 import { useEffect, useMemo, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { BarChart3, Settings as SettingsIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
@@ -31,6 +33,8 @@ import {
 } from "@/components/ui/select";
 
 function Dashboard() {
+
+    const { t } = useTranslation();
 
     const applications = useApplicationStore(
         (state) => state.applications
@@ -163,13 +167,13 @@ function Dashboard() {
 
                         <h1 className="text-4xl font-bold text-slate-900 dark:text-white">
 
-                            Job Tracker Dashboard
+                            {t("dashboard")}
 
                         </h1>
 
                         <p className="text-muted-foreground">
 
-                            Manage all your job applications in one place.
+                            {t("manageApplications")}
 
                         </p>
 
@@ -182,6 +186,8 @@ function Dashboard() {
 
                         <NotificationBell />
 
+                        <LanguageSwitcher />
+
                         <Link
                             to="/analytics"
                             className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition"
@@ -189,7 +195,7 @@ function Dashboard() {
 
                             <BarChart3 size={18} />
 
-                            Analytics
+                            {t("analytics")}
 
                         </Link>
 
@@ -200,7 +206,7 @@ function Dashboard() {
 
                             <SettingsIcon size={18} />
 
-                            Settings
+                            {t("settings")}
 
                         </Link>
 
@@ -228,7 +234,7 @@ function Dashboard() {
 
                         <CardHeader>
 
-                            <CardTitle>Total</CardTitle>
+                            <CardTitle>{t("total")}</CardTitle>
 
                         </CardHeader>
 
@@ -248,7 +254,7 @@ function Dashboard() {
 
                         <CardHeader>
 
-                            <CardTitle>Applied</CardTitle>
+                            <CardTitle>{t("applied")}</CardTitle>
 
                         </CardHeader>
 
@@ -268,7 +274,7 @@ function Dashboard() {
 
                         <CardHeader>
 
-                            <CardTitle>Interview</CardTitle>
+                            <CardTitle>{t("interview")}</CardTitle>
 
                         </CardHeader>
 
@@ -288,7 +294,7 @@ function Dashboard() {
 
                         <CardHeader>
 
-                            <CardTitle>Offer</CardTitle>
+                            <CardTitle>{t("offer")}</CardTitle>
 
                         </CardHeader>
 
@@ -308,7 +314,7 @@ function Dashboard() {
 
                         <CardHeader>
 
-                            <CardTitle>Rejected</CardTitle>
+                            <CardTitle>{t("rejected")}</CardTitle>
 
                         </CardHeader>
 
@@ -338,7 +344,7 @@ function Dashboard() {
 
                             <CardTitle id="resume-upload-heading">
 
-                                Resume Upload
+                                {t("resumeUpload")}
 
                             </CardTitle>
 
@@ -366,7 +372,7 @@ function Dashboard() {
 
                             <CardTitle id="job-search-heading">
 
-                                Job Search
+                                {t("jobSearch")}
 
                             </CardTitle>
 
@@ -403,7 +409,7 @@ function Dashboard() {
 
                                 <CardTitle id="applications-heading">
 
-                                    Applications
+                                    {t("applications")}
 
                                 </CardTitle>
 
@@ -432,7 +438,7 @@ function Dashboard() {
                                         >
 
                                             <SelectValue
-                                                placeholder="Filter by Status"
+                                                placeholder={t("filterStatus")}
                                             />
 
                                         </SelectTrigger>

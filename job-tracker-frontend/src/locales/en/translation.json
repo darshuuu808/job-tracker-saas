@@ -1,0 +1,91 @@
+{
+    "dashboard": "Job Tracker Dashboard",
+    "manageApplications": "Manage all your job applications in one place.",
+    "analytics": "Analytics",
+    "settings": "Settings",
+
+    "total": "Total",
+    "applied": "Applied",
+    "interview": "Interview",
+    "offer": "Offer",
+    "rejected": "Rejected",
+
+    "resumeUpload": "Resume Upload",
+    "jobSearch": "Job Search",
+
+    "applications": "Applications",
+
+    "filterStatus": "Filter by Status",
+
+    "addApplication": "Add Job Application",
+    "trackApplications": "Track your latest applications",
+
+    "company": "Company",
+    "role": "Role",
+    "status": "Status",
+    "appliedDate": "Applied Date",
+    "notes": "Notes",
+
+    "add": "Add Application",
+    "adding": "Adding...",
+
+    "applicationAdded": "Application added successfully!",
+    "applicationFailed": "Unable to add application.",
+
+    "chooseFile": "Choose PDF Resume",
+    "pdfOnly": "Please upload a PDF.",
+    "file": "File",
+    "size": "Size",
+    "resumeUploaded": "Resume uploaded successfully!",
+    "uploadFailed": "Upload failed.",
+
+    "searchJobs": "Search jobs...",
+    "search": "Search",
+    "noJobsFound": "No jobs found.",
+
+    "nothingHere": "Nothing here",
+    "noDataAvailable": "No data available yet.",
+    "noApplicationsYet": "No Applications Yet",
+    "startAddingApplication": "Start by adding your first job application.",
+
+    "analyticsDashboard": "Analytics Dashboard",
+    "monitorApplications": "Monitor your applications and hiring progress.",
+    "analyticsLoadFailed": "Failed to load analytics.",
+    "noAnalyticsAvailable": "No Analytics Available",
+    "addApplicationsToSeeInsights": "Add job applications to start seeing insights.",
+    "statusDistribution": "Application Status Distribution",
+    "weeklyApplications": "Weekly Applications",
+
+    "profile": "Profile",
+    "username": "Username",
+    "email": "Email",
+    "timezone": "Timezone",
+    "saveChanges": "Save Profile",
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "webhook": "Webhook",
+    "webhookUrl": "Webhook URL",
+    "saveWebhook": "Save Webhook",
+    "dangerZone": "Danger Zone",
+    "deleteAccount": "Delete Account",
+    "confirmDeleteAccount": "Delete your account permanently?",
+    "profileLoadFailed": "Failed to load profile",
+    "profileUpdated": "Profile updated",
+    "profileUpdateFailed": "Failed to update profile",
+    "passwordChanged": "Password changed",
+    "passwordChangeFailed": "Failed to change password",
+    "webhookUpdated": "Webhook updated",
+    "webhookUpdateFailed": "Failed to update webhook",
+    "accountDeleteFailed": "Failed to delete account",
+
+    "notifications": "Notifications",
+    "unread": "unread",
+    "markAllRead": "Mark all read",
+    "noNotifications": "No notifications",
+    "status_Applied": "Applied",
+    "status_Phone Screen": "Phone Screen",
+    "status_Interview": "Interview",
+    "status_Offer": "Offer",
+    "status_Rejected": "Rejected"
+}

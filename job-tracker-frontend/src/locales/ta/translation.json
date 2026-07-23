@@ -1,0 +1,91 @@
+{
+    "dashboard": "வேலை கண்காணிப்பு டாஷ்போர்டு",
+    "manageApplications": "உங்கள் அனைத்து வேலை விண்ணப்பங்களையும் ஒரே இடத்தில் நிர்வகிக்கவும்.",
+    "analytics": "பகுப்பாய்வு",
+    "settings": "அமைப்புகள்",
+
+    "total": "மொத்தம்",
+    "applied": "விண்ணப்பித்தது",
+    "interview": "நேர்காணல்",
+    "offer": "வேலை வாய்ப்பு",
+    "rejected": "நிராகரிக்கப்பட்டது",
+
+    "resumeUpload": "ரெஸ்யூமே பதிவேற்றம்",
+    "jobSearch": "வேலை தேடல்",
+
+    "applications": "விண்ணப்பங்கள்",
+
+    "filterStatus": "நிலைப்படி வடிகட்டு",
+
+    "addApplication": "வேலை விண்ணப்பத்தைச் சேர்க்கவும்",
+    "trackApplications": "உங்கள் சமீபத்திய விண்ணப்பங்களை கண்காணிக்கவும்",
+
+    "company": "நிறுவனம்",
+    "role": "பணி",
+    "status": "நிலை",
+    "appliedDate": "விண்ணப்பித்த தேதி",
+    "notes": "குறிப்புகள்",
+
+    "add": "விண்ணப்பத்தைச் சேர்",
+    "adding": "சேர்க்கப்படுகிறது...",
+
+    "applicationAdded": "விண்ணப்பம் வெற்றிகரமாக சேர்க்கப்பட்டது!",
+    "applicationFailed": "விண்ணப்பத்தைச் சேர்க்க முடியவில்லை.",
+
+    "chooseFile": "PDF ரெஸ்யூமேவைத் தேர்ந்தெடுக்கவும்",
+    "pdfOnly": "தயவுசெய்து ஒரு PDF பதிவேற்றவும்.",
+    "file": "கோப்பு",
+    "size": "அளவு",
+    "resumeUploaded": "ரெஸ்யூமே வெற்றிகரமாக பதிவேற்றப்பட்டது!",
+    "uploadFailed": "பதிவேற்றம் தோல்வியடைந்தது.",
+
+    "searchJobs": "வேலைகளைத் தேடுங்கள்...",
+    "search": "தேடு",
+    "noJobsFound": "வேலைகள் எதுவும் கிடைக்கவில்லை.",
+
+    "nothingHere": "இங்கே எதுவும் இல்லை",
+    "noDataAvailable": "இதுவரை தரவு எதுவும் இல்லை.",
+    "noApplicationsYet": "இன்னும் விண்ணப்பங்கள் இல்லை",
+    "startAddingApplication": "உங்கள் முதல் வேலை விண்ணப்பத்தைச் சேர்ப்பதன் மூலம் தொடங்குங்கள்.",
+
+    "analyticsDashboard": "பகுப்பாய்வு டாஷ்போர்டு",
+    "monitorApplications": "உங்கள் விண்ணப்பங்கள் மற்றும் வேலைவாய்ப்பு முன்னேற்றத்தைக் கண்காணிக்கவும்.",
+    "analyticsLoadFailed": "பகுப்பாய்வை ஏற்ற முடியவில்லை.",
+    "noAnalyticsAvailable": "பகுப்பாய்வு தரவு இல்லை",
+    "addApplicationsToSeeInsights": "நுண்ணறிவுகளைக் காண வேலை விண்ணப்பங்களைச் சேர்க்கவும்.",
+    "statusDistribution": "விண்ணப்ப நிலை விநியோகம்",
+    "weeklyApplications": "வாராந்திர விண்ணப்பங்கள்",
+
+    "profile": "சுயவிவரம்",
+    "username": "பயனர்பெயர்",
+    "email": "மின்னஞ்சல்",
+    "timezone": "நேர மண்டலம்",
+    "saveChanges": "சுயவிவரத்தைச் சேமி",
+    "changePassword": "கடவுச்சொல்லை மாற்று",
+    "currentPassword": "தற்போதைய கடவுச்சொல்",
+    "newPassword": "புதிய கடவுச்சொல்",
+    "webhook": "வெப்ஹூக்",
+    "webhookUrl": "வெப்ஹூக் URL",
+    "saveWebhook": "வெப்ஹூக்கைச் சேமி",
+    "dangerZone": "ஆபத்து மண்டலம்",
+    "deleteAccount": "கணக்கை நீக்கு",
+    "confirmDeleteAccount": "உங்கள் கணக்கை நிரந்தரமாக நீக்கவா?",
+    "profileLoadFailed": "சுயவிவரத்தை ஏற்ற முடியவில்லை",
+    "profileUpdated": "சுயவிவரம் புதுப்பிக்கப்பட்டது",
+    "profileUpdateFailed": "சுயவிவரத்தைப் புதுப்பிக்க முடியவில்லை",
+    "passwordChanged": "கடவுச்சொல் மாற்றப்பட்டது",
+    "passwordChangeFailed": "கடவுச்சொல்லை மாற்ற முடியவில்லை",
+    "webhookUpdated": "வெப்ஹூக் புதுப்பிக்கப்பட்டது",
+    "webhookUpdateFailed": "வெப்ஹூக்கைப் புதுப்பிக்க முடியவில்லை",
+    "accountDeleteFailed": "கணக்கை நீக்க முடியவில்லை",
+
+    "notifications": "அறிவிப்புகள்",
+    "unread": "படிக்காதவை",
+    "markAllRead": "அனைத்தையும் படித்ததாகக் குறி",
+    "noNotifications": "அறிவிப்புகள் இல்லை",
+    "status_Applied": "விண்ணப்பித்தது",
+    "status_Phone Screen": "தொலைபேசி நேர்காணல்",
+    "status_Interview": "நேர்காணல்",
+    "status_Offer": "வேலை வாய்ப்பு",
+    "status_Rejected": "நிராகரிக்கப்பட்டது"
+}

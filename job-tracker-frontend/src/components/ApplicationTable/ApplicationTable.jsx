@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import {
 
@@ -40,6 +41,8 @@ function ApplicationTable({
 
 }) {
 
+    const { t } = useTranslation();
+
     const [
 
         sorting,
@@ -64,7 +67,7 @@ function ApplicationTable({
 
                 accessorKey: "company",
 
-                header: "Company"
+                header: t("company")
 
             },
 
@@ -72,7 +75,7 @@ function ApplicationTable({
 
                 accessorKey: "role",
 
-                header: "Role"
+                header: t("role")
 
             },
 
@@ -80,7 +83,11 @@ function ApplicationTable({
 
                 accessorKey: "status",
 
-                header: "Status"
+                header: t("status"),
+
+                cell: ({ getValue }) =>
+
+                    t(`status_${getValue()}`)
 
             },
 
@@ -88,7 +95,7 @@ function ApplicationTable({
 
                 accessorKey: "notes",
 
-                header: "Notes",
+                header: t("notes"),
 
                 cell: ({ getValue }) =>
 
@@ -98,7 +105,7 @@ function ApplicationTable({
 
         ],
 
-        []
+        [t]
 
     );
 
@@ -170,7 +177,7 @@ function ApplicationTable({
 
                     type="text"
 
-                    placeholder="Search company, role or status..."
+                    placeholder={t("searchTablePlaceholder")}
 
                     value={globalFilter}
 
@@ -282,7 +289,7 @@ function ApplicationTable({
 
                                 >
 
-                                    No applications found
+                                    {t("noApplicationsFound")}
 
                                 </TableCell>
 
@@ -362,13 +369,13 @@ function ApplicationTable({
 
                 >
 
-                    Previous
+                    {t("previous")}
 
                 </button>
 
                 <span>
 
-                    Page{" "}
+                    {t("page")}{" "}
 
                     {
 
@@ -376,7 +383,7 @@ function ApplicationTable({
 
                     }
 
-                    {" "}of{" "}
+                    {" "}{t("of")}{" "}
 
                     {
 
@@ -404,7 +411,7 @@ function ApplicationTable({
 
                 >
 
-                    Next
+                    {t("next")}
 
                 </button>
 
