@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { BarChart3, Settings as SettingsIcon } from "lucide-react";
-
+import { Label } from "@/components/ui/label";
 import useApplicationStore from "../store/applicationStore";
 
 import AddApplicationForm from "../forms/AddApplicationForm";
@@ -60,7 +60,7 @@ function Dashboard() {
 
         fetchApplications();
 
-    }, []);
+    }, [fetchApplications]);
 
     const handleFilterChange = useCallback(
         (value) => {
@@ -71,8 +71,8 @@ function Dashboard() {
     );
 
     const filteredApplications = useMemo(() => {
-        
-        
+
+
         return filter === "All"
             ? applications
             : applications.filter(
@@ -148,13 +148,16 @@ function Dashboard() {
 
     return (
 
-        <div className="min-h-screen bg-background">
+        <main
+            id="main-content"
+            className="min-h-screen bg-background"
+        >
 
             <div className="max-w-7xl mx-auto p-8">
 
                 {/* Header */}
 
-                <div className="mb-8 flex items-center justify-between">
+                <header className="mb-8 flex items-center justify-between">
 
                     <div>
 
@@ -172,7 +175,10 @@ function Dashboard() {
 
                     </div>
 
-                    <div className="flex items-center gap-5">
+                    <nav
+                        aria-label="Dashboard navigation"
+                        className="flex items-center gap-5"
+                    >
 
                         <NotificationBell />
 
@@ -200,13 +206,23 @@ function Dashboard() {
 
                         <ThemeToggle />
 
-                    </div>
+                    </nav>
 
-                </div>
+                </header>
 
                 {/* Stats */}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-8">
+                <section
+                    aria-labelledby="stats-heading"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-8"
+                >
+
+                    <h2
+                        id="stats-heading"
+                        className="sr-only"
+                    >
+                        Application Statistics
+                    </h2>
 
                     <Card>
 
@@ -308,61 +324,76 @@ function Dashboard() {
 
                     </Card>
 
-                </div>
+                </section>
 
                 {/* Resume Upload */}
 
-                <Card className="mb-8">
+                <section
+                    aria-labelledby="resume-upload-heading"
+                >
 
-                    <CardHeader>
+                    <Card className="mb-8">
 
-                        <CardTitle>
+                        <CardHeader>
 
-                            Resume Upload
+                            <CardTitle id="resume-upload-heading">
 
-                        </CardTitle>
+                                Resume Upload
 
-                    </CardHeader>
+                            </CardTitle>
 
-                    <CardContent>
+                        </CardHeader>
 
-                        <ResumeUpload />
+                        <CardContent>
 
-                    </CardContent>
+                            <ResumeUpload />
 
-                </Card>
+                        </CardContent>
+
+                    </Card>
+
+                </section>
 
                 {/* Job Search */}
 
-                <Card className="mb-8">
+                <section
+                    aria-labelledby="job-search-heading"
+                >
 
-                    <CardHeader>
+                    <Card className="mb-8">
 
-                        <CardTitle>
+                        <CardHeader>
 
-                            Job Search
+                            <CardTitle id="job-search-heading">
 
-                        </CardTitle>
+                                Job Search
 
-                    </CardHeader>
+                            </CardTitle>
 
-                    <CardContent>
+                        </CardHeader>
 
-                        <JobSearchBar />
+                        <CardContent>
 
-                    </CardContent>
+                            <JobSearchBar />
 
-                </Card>
+                        </CardContent>
+
+                    </Card>
+
+                </section>
 
                 {/* Main Content */}
 
-                <div className="grid lg:grid-cols-3 gap-8">
+                <section
+                    aria-labelledby="applications-heading"
+                    className="grid lg:grid-cols-3 gap-8"
+                >
 
-                    <div>
+                    <aside>
 
                         <AddApplicationForm />
 
-                    </div>
+                    </aside>
 
                     <div className="lg:col-span-2">
 
@@ -370,7 +401,7 @@ function Dashboard() {
 
                             <CardHeader>
 
-                                <CardTitle>
+                                <CardTitle id="applications-heading">
 
                                     Applications
 
@@ -382,14 +413,27 @@ function Dashboard() {
 
                                 <div className="mb-6">
 
+                                    <Label
+                                        htmlFor="status-filter"
+                                        className="sr-only"
+                                    >
+                                        Filter applications by status
+                                    </Label>
+
                                     <Select
                                         value={filter}
                                         onValueChange={handleFilterChange}
                                     >
 
-                                        <SelectTrigger className="w-64">
+                                        <SelectTrigger
+                                            id="status-filter"
+                                            aria-label="Filter applications by status"
+                                            className="w-64"
+                                        >
 
-                                            <SelectValue placeholder="Filter by Status" />
+                                            <SelectValue
+                                                placeholder="Filter by Status"
+                                            />
 
                                         </SelectTrigger>
 
@@ -451,11 +495,11 @@ function Dashboard() {
 
                     </div>
 
-                </div>
+                </section>
 
             </div>
 
-        </div>
+        </main>
 
     );
 

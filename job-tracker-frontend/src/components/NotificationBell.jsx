@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Bell } from "lucide-react";
 import { memo } from "react";
+
 import useNotifications from "../hooks/useNotifications";
+
 import {
     markAsRead,
     markAllRead
@@ -19,7 +21,7 @@ function NotificationBell() {
     const bellRef = useRef(null);
 
     const unread = notifications.filter(
-        notification => !notification.is_read
+        (notification) => !notification.is_read
     ).length;
 
     useEffect(() => {
@@ -37,9 +39,24 @@ function NotificationBell() {
 
         }
 
+        function handleEscape(event) {
+
+            if (event.key === "Escape") {
+
+                setOpen(false);
+
+            }
+
+        }
+
         document.addEventListener(
             "mousedown",
             handleClickOutside
+        );
+
+        document.addEventListener(
+            "keydown",
+            handleEscape
         );
 
         return () => {
@@ -47,6 +64,11 @@ function NotificationBell() {
             document.removeEventListener(
                 "mousedown",
                 handleClickOutside
+            );
+
+            document.removeEventListener(
+                "keydown",
+                handleEscape
             );
 
         };
@@ -77,28 +99,37 @@ function NotificationBell() {
         >
 
             <button
-                onClick={() => setOpen(prev => !prev)}
-                className="relative rounded-lg p-2 hover:bg-muted transition"
+                type="button"
+                aria-label={`Notifications${unread > 0 ? `, ${unread} unread` : ""}`}
+                aria-haspopup="menu"
+                aria-expanded={open}
+                aria-controls="notification-menu"
+                onClick={() => setOpen((prev) => !prev)}
+                className="relative rounded-lg p-2 transition hover:bg-muted focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
 
-                <Bell size={24} />
+                <Bell
+                    size={24}
+                    aria-hidden="true"
+                />
 
                 {unread > 0 && (
 
                     <span
                         className="
-                        absolute
-                        -top-1
-                        -right-1
-                        flex
-                        h-5
-                        w-5
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-red-600
-                        text-xs
-                        text-white"
+                            absolute
+                            -top-1
+                            -right-1
+                            flex
+                            h-5
+                            w-5
+                            items-center
+                            justify-center
+                            rounded-full
+                            bg-red-600
+                            text-xs
+                            text-white
+                        "
                     >
 
                         {unread}
@@ -112,16 +143,20 @@ function NotificationBell() {
             {open && (
 
                 <div
+                    id="notification-menu"
+                    role="menu"
+                    aria-label="Notifications"
                     className="
-                    absolute
-                    right-0
-                    mt-3
-                    w-96
-                    rounded-xl
-                    border
-                    bg-background
-                    shadow-xl
-                    z-50"
+                        absolute
+                        right-0
+                        mt-3
+                        w-96
+                        rounded-xl
+                        border
+                        bg-background
+                        shadow-xl
+                        z-50
+                    "
                 >
 
                     <div className="flex items-center justify-between border-b p-4">
@@ -135,6 +170,7 @@ function NotificationBell() {
                         {notifications.length > 0 && (
 
                             <button
+                                type="button"
                                 onClick={handleReadAll}
                                 className="text-sm text-blue-600 hover:underline"
                             >
@@ -159,15 +195,18 @@ function NotificationBell() {
 
                         ) : (
 
-                            notifications.map(notification => (
+                            notifications.map((notification) => (
 
-                                <div
+                                <button
                                     key={notification.id}
+                                    type="button"
+                                    role="menuitem"
                                     onClick={() => handleRead(notification.id)}
-                                    className={`cursor-pointer border-b p-4 transition hover:bg-muted ${!notification.is_read
+                                    className={`w-full border-b p-4 text-left transition hover:bg-muted ${
+                                        !notification.is_read
                                             ? "bg-blue-50 dark:bg-blue-950"
                                             : ""
-                                        }`}
+                                    }`}
                                 >
 
                                     <h4 className="font-semibold">
@@ -190,7 +229,7 @@ function NotificationBell() {
 
                                     </p>
 
-                                </div>
+                                </button>
 
                             ))
 

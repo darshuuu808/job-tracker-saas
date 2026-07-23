@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { uploadResume } from "../../services/resumeService";
+import { Label } from "@/components/ui/label";
 
 export default function ResumeUpload() {
 
@@ -39,7 +40,8 @@ export default function ResumeUpload() {
 
                         setProgress(
                             Math.round(
-                                (event.loaded * 100) / event.total
+                                (event.loaded * 100) /
+                                event.total
                             )
                         );
 
@@ -48,7 +50,9 @@ export default function ResumeUpload() {
                 }
             );
 
-            alert("Resume uploaded successfully!");
+            alert(
+                "Resume uploaded successfully!"
+            );
 
         } catch (err) {
 
@@ -74,10 +78,18 @@ export default function ResumeUpload() {
 
             </h2>
 
+            <Label htmlFor="resume-upload">
+
+                Choose PDF Resume
+
+            </Label>
+
             <input
+                id="resume-upload"
                 type="file"
                 accept=".pdf"
                 onChange={handleChange}
+                className="mt-2"
             />
 
             {file && (
@@ -110,7 +122,7 @@ export default function ResumeUpload() {
                         <div
                             className="bg-blue-600 h-3 rounded-full transition-all"
                             style={{
-                                width: `${progress}%`,
+                                width: `${progress}%`
                             }}
                         />
 

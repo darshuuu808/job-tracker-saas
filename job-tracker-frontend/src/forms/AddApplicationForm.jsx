@@ -9,6 +9,7 @@ import useApplicationStore from "../store/applicationStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 import {
     Card,
@@ -41,56 +42,26 @@ function AddApplicationForm() {
     );
 
     const {
-
         register,
-
         handleSubmit,
-
         reset,
-
         setValue,
-
         formState: {
-
             errors,
-
             isSubmitting
-
         }
-
     } = useForm({
-
-        resolver: zodResolver(
-            applicationSchema
-        )
-
+        resolver: zodResolver(applicationSchema)
     });
 
     useEffect(() => {
 
         if (!selectedJob) return;
 
-        setValue(
-            "company",
-            selectedJob.company
-        );
-
-        // Your schema uses "role"
-        setValue(
-            "role",
-            selectedJob.title
-        );
-
-        setValue(
-            "status",
-            "Applied"
-        );
-
-        setValue(
-            "notes",
-            `Location: ${selectedJob.location}`
-        );
-
+        setValue("company", selectedJob.company);
+        setValue("role", selectedJob.title);
+        setValue("status", "Applied");
+        setValue("notes", `Location: ${selectedJob.location}`);
         setValue(
             "appliedDate",
             new Date().toISOString().split("T")[0]
@@ -116,18 +87,12 @@ function AddApplicationForm() {
 
             reset();
 
-        }
-
-        catch (error) {
+        } catch (error) {
 
             toast.error(
-
                 error.response?.data?.error ||
-
                 error.message ||
-
                 "Unable to add application."
-
             );
 
         }
@@ -157,115 +122,106 @@ function AddApplicationForm() {
             <CardContent>
 
                 <form
-
                     onSubmit={handleSubmit(onSubmit)}
-
                     className="space-y-6"
-
                 >
 
                     <div className="space-y-2">
 
-                        <label className="text-sm font-medium">
+                        <Label htmlFor="company">
 
                             Company
 
-                        </label>
+                        </Label>
 
                         <Input
-
+                            id="company"
                             placeholder="Google"
-
+                            aria-describedby={
+                                errors.company
+                                    ? "company-error"
+                                    : undefined
+                            }
                             {...register("company")}
-
                         />
 
-                        {
+                        {errors.company && (
 
-                            errors.company && (
+                            <p
+                                id="company-error"
+                                className="text-sm text-red-500"
+                            >
 
-                                <p className="text-sm text-red-500">
+                                {errors.company.message}
 
-                                    {errors.company.message}
+                            </p>
 
-                                </p>
-
-                            )
-
-                        }
+                        )}
 
                     </div>
 
                     <div className="space-y-2">
 
-                        <label className="text-sm font-medium">
+                        <Label htmlFor="role">
 
                             Role
 
-                        </label>
+                        </Label>
 
                         <Input
-
+                            id="role"
                             placeholder="Software Engineer"
-
+                            aria-describedby={
+                                errors.role
+                                    ? "role-error"
+                                    : undefined
+                            }
                             {...register("role")}
-
                         />
 
-                        {
+                        {errors.role && (
 
-                            errors.role && (
+                            <p
+                                id="role-error"
+                                className="text-sm text-red-500"
+                            >
 
-                                <p className="text-sm text-red-500">
+                                {errors.role.message}
 
-                                    {errors.role.message}
+                            </p>
 
-                                </p>
-
-                            )
-
-                        }
+                        )}
 
                     </div>
 
                     <div className="space-y-2">
 
-                        <label className="text-sm font-medium">
+                        <Label htmlFor="status">
 
                             Status
 
-                        </label>
+                        </Label>
 
                         <Select
-
                             onValueChange={(value) =>
-
                                 setValue(
-
                                     "status",
-
                                     value,
-
                                     {
-
                                         shouldValidate: true
-
                                     }
-
                                 )
-
                             }
-
                             defaultValue="Applied"
-
                         >
 
-                            <SelectTrigger>
+                            <SelectTrigger
+                                id="status"
+                                aria-label="Application status"
+                            >
 
                                 <SelectValue
-
                                     placeholder="Select Status"
-
                                 />
 
                             </SelectTrigger>
@@ -306,93 +262,81 @@ function AddApplicationForm() {
 
                         </Select>
 
-                        {
+                        {errors.status && (
 
-                            errors.status && (
+                            <p
+                                id="status-error"
+                                className="text-sm text-red-500"
+                            >
 
-                                <p className="text-sm text-red-500">
+                                {errors.status.message}
 
-                                    {errors.status.message}
+                            </p>
 
-                                </p>
-
-                            )
-
-                        }
+                        )}
 
                     </div>
 
                     <div className="space-y-2">
 
-                        <label className="text-sm font-medium">
+                        <Label htmlFor="appliedDate">
 
                             Applied Date
 
-                        </label>
+                        </Label>
 
                         <Input
-
+                            id="appliedDate"
                             type="date"
-
+                            aria-describedby={
+                                errors.appliedDate
+                                    ? "date-error"
+                                    : undefined
+                            }
                             {...register("appliedDate")}
-
                         />
 
-                        {
+                        {errors.appliedDate && (
 
-                            errors.appliedDate && (
+                            <p
+                                id="date-error"
+                                className="text-sm text-red-500"
+                            >
 
-                                <p className="text-sm text-red-500">
+                                {errors.appliedDate.message}
 
-                                    {errors.appliedDate.message}
+                            </p>
 
-                                </p>
-
-                            )
-
-                        }
+                        )}
 
                     </div>
 
                     <div className="space-y-2">
 
-                        <label className="text-sm font-medium">
+                        <Label htmlFor="notes">
 
                             Notes
 
-                        </label>
+                        </Label>
 
                         <Textarea
-
+                            id="notes"
                             rows={4}
-
                             placeholder="Additional notes..."
-
                             {...register("notes")}
-
                         />
 
                     </div>
 
                     <Button
-
                         type="submit"
-
                         className="w-full"
-
                         disabled={isSubmitting}
-
                     >
 
-                        {
-
-                            isSubmitting
-
-                                ? "Adding..."
-
-                                : "Add Application"
-
-                        }
+                        {isSubmitting
+                            ? "Adding..."
+                            : "Add Application"}
 
                     </Button>
 

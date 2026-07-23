@@ -3,16 +3,21 @@ import { useTheme } from "next-themes";
 import { memo } from "react";
 
 function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
 
-  return (
-    <Switch
-      checked={theme === "dark"}
-      onCheckedChange={(checked) =>
-        setTheme(checked ? "dark" : "light")
-      }
-    />
-  );
+    const { theme, setTheme } = useTheme();
+
+    return (
+
+        <Switch
+            checked={theme === "dark"}
+            aria-label="Toggle dark mode"
+            onCheckedChange={(checked) =>
+                setTheme(checked ? "dark" : "light")
+            }
+        />
+
+    );
+
 }
 
 export default memo(ThemeToggle);

@@ -3,6 +3,8 @@ import { lazy, Suspense } from "react";
 
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
+import SkipToContent from "./components/layout/SkipToContent";
+
 const Login = lazy(() => import("./pages/Login"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Analytics = lazy(() => import("./pages/Analytics"));
@@ -103,6 +105,8 @@ export default function App() {
     return (
 
         <BrowserRouter>
+
+            <SkipToContent />
 
             <AuthProvider>
 
