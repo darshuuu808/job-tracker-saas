@@ -175,6 +175,8 @@ function ApplicationTable({
 
                 <input
 
+                    data-testid="search-input"
+
                     type="text"
 
                     placeholder={t("searchTablePlaceholder")}

@@ -138,6 +138,7 @@ function AddApplicationForm() {
                         </Label>
 
                         <Input
+                            data-testid="company-input"
                             id="company"
                             placeholder={t("company")}
                             aria-describedby={
@@ -172,6 +173,7 @@ function AddApplicationForm() {
                         </Label>
 
                         <Input
+                            data-testid="role-input"
                             id="role"
                             placeholder={t("role")}
                             aria-describedby={
@@ -219,6 +221,7 @@ function AddApplicationForm() {
                         >
 
                             <SelectTrigger
+                                data-testid="status-select"
                                 id="status"
                                 aria-label="Application status"
                             >
@@ -289,6 +292,7 @@ function AddApplicationForm() {
                         </Label>
 
                         <Input
+                            data-testid="date-input"
                             id="appliedDate"
                             type="date"
                             aria-describedby={
@@ -323,6 +327,7 @@ function AddApplicationForm() {
                         </Label>
 
                         <Textarea
+                            data-testid="notes-input"
                             id="notes"
                             rows={4}
                             placeholder={t("notes")}
@@ -332,6 +337,7 @@ function AddApplicationForm() {
                     </div>
 
                     <Button
+                        data-testid="submit-button"
                         type="submit"
                         className="w-full"
                         disabled={isSubmitting}

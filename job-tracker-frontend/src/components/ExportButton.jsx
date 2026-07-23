@@ -95,6 +95,8 @@ export default function ExportButton({
 
         <button
 
+            data-testid="export-button"
+
             onClick={exportCSV}
 
             className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"

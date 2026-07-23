@@ -9,6 +9,7 @@ function ThemeToggle() {
     return (
 
         <Switch
+            data-testid="theme-toggle"
             checked={theme === "dark"}
             aria-label="Toggle dark mode"
             onCheckedChange={(checked) =>
