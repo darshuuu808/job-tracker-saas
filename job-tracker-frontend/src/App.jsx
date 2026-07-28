@@ -4,11 +4,13 @@ import { lazy, Suspense } from "react";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
 import SkipToContent from "./components/layout/SkipToContent";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const Login = lazy(() => import("./pages/Login"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const Settings = lazy(() => import("./pages/Settings"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 import { Toaster } from "@/components/ui/sonner";
@@ -63,27 +65,36 @@ function AppContent() {
                 <Route
                     path="/"
                     element={
-                        isAuthenticated
-                            ? <Dashboard />
-                            : <Navigate to="/login" replace />
+                        <ProtectedRoute>
+                            <Dashboard />
+                        </ProtectedRoute>
                     }
                 />
 
                 <Route
                     path="/analytics"
                     element={
-                        isAuthenticated
-                            ? <Analytics />
-                            : <Navigate to="/login" replace />
+                        <ProtectedRoute>
+                            <Analytics />
+                        </ProtectedRoute>
                     }
                 />
 
                 <Route
                     path="/settings"
                     element={
-                        isAuthenticated
-                            ? <Settings />
-                            : <Navigate to="/login" replace />
+                        <ProtectedRoute>
+                            <Settings />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/admin"
+                    element={
+                        <ProtectedRoute adminOnly>
+                            <AdminDashboard />
+                        </ProtectedRoute>
                     }
                 />
 

@@ -5,7 +5,10 @@ import Dashboard from "./pages/Dashboard";
 import Applications from "./pages/Applications";
 import Analytics from "./pages/Analytics";
 import Jobs from "./pages/Jobs";
+import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
+
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -18,19 +21,43 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: (
+      <ProtectedRoute>
+        <Dashboard />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/applications",
-    element: <Applications />,
+    element: (
+      <ProtectedRoute>
+        <Applications />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/analytics",
-    element: <Analytics />,
+    element: (
+      <ProtectedRoute>
+        <Analytics />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/jobs",
-    element: <Jobs />,
+    element: (
+      <ProtectedRoute>
+        <Jobs />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/admin",
+    element: (
+      <ProtectedRoute adminOnly>
+        <AdminDashboard />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "*",

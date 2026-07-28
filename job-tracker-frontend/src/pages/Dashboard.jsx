@@ -2,9 +2,10 @@ import LanguageSwitcher from "../components/LanguageSwitcher/LanguageSwitcher";
 import { useEffect, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { BarChart3, Settings as SettingsIcon } from "lucide-react";
+import { BarChart3, Settings as SettingsIcon, ShieldCheck } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import useApplicationStore from "../store/applicationStore";
+import { useAuth } from "../context/AuthContext";
 
 import AddApplicationForm from "../forms/AddApplicationForm";
 
@@ -35,6 +36,7 @@ import {
 function Dashboard() {
 
     const { t } = useTranslation();
+    const { user } = useAuth();
 
     const applications = useApplicationStore(
         (state) => state.applications
@@ -209,6 +211,18 @@ function Dashboard() {
                             {t("settings")}
 
                         </Link>
+
+                        {
+                            user?.role === "ADMIN" && (
+                                <Link
+                                    to="/admin"
+                                    className="inline-flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-white hover:bg-purple-700 transition"
+                                >
+                                    <ShieldCheck size={18} />
+                                    Admin
+                                </Link>
+                            )
+                        }
 
                         <ThemeToggle />
 

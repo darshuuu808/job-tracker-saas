@@ -47,6 +47,13 @@ class User(db.Model):
         default=Role.USER
     )
 
+    # Day 39
+    is_active = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=True
+    )
+
     # ==========================
     # Day 33 - User Settings
     # ==========================
@@ -62,8 +69,6 @@ class User(db.Model):
         nullable=True
     )
 
-    # ==========================
-
     applications = db.relationship(
         "JobApplication",
         backref="user",
@@ -75,21 +80,17 @@ class User(db.Model):
             self,
             password):
 
-        self.password_hash = (
-            generate_password_hash(
-                password
-            )
+        self.password_hash = generate_password_hash(
+            password
         )
 
     def check_password(
             self,
             password):
 
-        return (
-            check_password_hash(
-                self.password_hash,
-                password
-            )
+        return check_password_hash(
+            self.password_hash,
+            password
         )
 
     def to_dict(self):
@@ -104,6 +105,8 @@ class User(db.Model):
 
             "role": self.role.value,
 
+            "is_active": self.is_active,
+
             "timezone": self.timezone,
 
             "webhook_url": self.webhook_url
@@ -112,6 +115,4 @@ class User(db.Model):
 
     def __repr__(self):
 
-        return (
-            f"<User {self.username}>"
-        )
+        return f"<User {self.username}>"

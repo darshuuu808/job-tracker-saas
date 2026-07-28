@@ -137,21 +137,24 @@ def login():
     user = User.query.filter_by(
         email=email
     ).first()
-
+    
     if (
         not user
         or
-        not user.check_password(
-            password
-        )
-    ):
-
+        not user.check_password(password)
+        ):
         return jsonify(
             {
-                "error":
-                "Invalid credentials"
-            }
-        ), 401
+                "error": "Invalid credentials"
+                }
+                ), 401
+
+    if not user.is_active:
+        return jsonify(
+            {
+                "error": "Your account has been deactivated. Please contact the administrator."
+                }
+                ), 403
 
     access_token = (
         create_access_token(
