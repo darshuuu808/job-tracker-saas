@@ -2,6 +2,7 @@ import "./i18n";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { ThemeProvider } from "next-themes";
+import { HelmetProvider } from "react-helmet-async";
 
 import App from "./App";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -14,19 +15,23 @@ ReactDOM.createRoot(
 
     <React.StrictMode>
 
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-        >
+        <HelmetProvider>
 
-            <ErrorBoundary>
+            <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+            >
 
-                <App />
+                <ErrorBoundary>
 
-            </ErrorBoundary>
+                    <App />
 
-        </ThemeProvider>
+                </ErrorBoundary>
+
+            </ThemeProvider>
+
+        </HelmetProvider>
 
     </React.StrictMode>
 
