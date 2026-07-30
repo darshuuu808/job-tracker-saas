@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,6 +33,8 @@ function AddApplicationForm() {
 
     const { t } = useTranslation();
 
+    const [searchParams] = useSearchParams();
+
     const addApplication = useApplicationStore(
         (state) => state.addApplication
     );
@@ -57,6 +60,31 @@ function AddApplicationForm() {
         resolver: zodResolver(applicationSchema)
     });
 
+    // Chrome Extension Prefill
+    useEffect(() => {
+
+        const company = searchParams.get("company");
+        const role = searchParams.get("role");
+
+        if (!company && !role) return;
+
+        if (company) {
+            setValue("company", company);
+        }
+
+        if (role) {
+            setValue("role", role);
+        }
+
+        setValue("status", "Applied");
+        setValue(
+            "appliedDate",
+            new Date().toISOString().split("T")[0]
+        );
+
+    }, [searchParams, setValue]);
+
+    // Existing AI Job Prefill
     useEffect(() => {
 
         if (!selectedJob) return;
@@ -235,33 +263,23 @@ function AddApplicationForm() {
                             <SelectContent>
 
                                 <SelectItem value="Applied">
-
                                     Applied
-
                                 </SelectItem>
 
                                 <SelectItem value="Phone Screen">
-
                                     Phone Screen
-
                                 </SelectItem>
 
                                 <SelectItem value="Interview">
-
                                     Interview
-
                                 </SelectItem>
 
                                 <SelectItem value="Offer">
-
                                     Offer
-
                                 </SelectItem>
 
                                 <SelectItem value="Rejected">
-
                                     Rejected
-
                                 </SelectItem>
 
                             </SelectContent>
@@ -269,16 +287,12 @@ function AddApplicationForm() {
                         </Select>
 
                         {errors.status && (
-
                             <p
                                 id="status-error"
                                 className="text-sm text-red-500"
                             >
-
                                 {errors.status.message}
-
                             </p>
-
                         )}
 
                     </div>
@@ -286,9 +300,7 @@ function AddApplicationForm() {
                     <div className="space-y-2">
 
                         <Label htmlFor="appliedDate">
-
                             {t("appliedDate")}
-
                         </Label>
 
                         <Input
@@ -304,16 +316,12 @@ function AddApplicationForm() {
                         />
 
                         {errors.appliedDate && (
-
                             <p
                                 id="date-error"
                                 className="text-sm text-red-500"
                             >
-
                                 {errors.appliedDate.message}
-
                             </p>
-
                         )}
 
                     </div>
@@ -321,9 +329,7 @@ function AddApplicationForm() {
                     <div className="space-y-2">
 
                         <Label htmlFor="notes">
-
                             {t("notes")}
-
                         </Label>
 
                         <Textarea
