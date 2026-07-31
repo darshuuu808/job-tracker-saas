@@ -2,9 +2,7 @@ import axios from "axios";
 import { toast } from "sonner";
 
 const API = axios.create({
-
-    baseURL: "http://127.0.0.1:5000"
-
+    baseURL: import.meta.env.VITE_API_URL
 });
 
 API.interceptors.request.use(
@@ -14,9 +12,7 @@ API.interceptors.request.use(
         const token = localStorage.getItem("access_token");
 
         if (token) {
-
             config.headers.Authorization = `Bearer ${token}`;
-
         }
 
         return config;
