@@ -63,6 +63,12 @@ Talisman(
 
 CORS(
     app,
+    origins=[
+        os.getenv(
+            "FRONTEND_URL",
+            "http://localhost:5173"
+        )
+    ],
     supports_credentials=True
 )
 # -----------------------------
@@ -256,70 +262,21 @@ def home():
         "Job Tracker SaaS Running!"
     )
 
+
 # -----------------------------
-# Debug Routes
+# Health Check
 # -----------------------------
 
-@app.route("/mail-debug")
-def mail_debug():
+@app.route("/health")
+def health():
 
     return {
 
-        "MAIL_SERVER":
-        app.config["MAIL_SERVER"],
+        "status": "healthy",
 
-        "MAIL_PORT":
-        app.config["MAIL_PORT"],
+        "service": "Job Tracker SaaS"
 
-        "MAIL_USERNAME":
-        app.config["MAIL_USERNAME"],
-
-        "MAIL_DEFAULT_SENDER":
-        app.config["MAIL_DEFAULT_SENDER"],
-
-        "MAIL_USE_TLS":
-        app.config["MAIL_USE_TLS"],
-
-        "MAIL_USE_SSL":
-        app.config["MAIL_USE_SSL"]
-
-    }
-
-
-@app.route("/mail-password")
-def mail_password():
-
-    return {
-
-        "password_length":
-        len(
-            app.config["MAIL_PASSWORD"]
-        ),
-
-        "starts_with":
-        app.config["MAIL_PASSWORD"][:4]
-
-    }
-
-
-@app.route("/routes")
-def routes():
-
-    return {
-
-        "routes": sorted(
-
-            [
-
-                str(rule)
-
-                for rule in app.url_map.iter_rules()
-
-            ]
-
-        )
-
-    }
+    }, 200
 
 
 # -----------------------------
