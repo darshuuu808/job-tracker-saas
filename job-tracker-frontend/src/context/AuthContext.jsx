@@ -1,56 +1,28 @@
 import {
-
     createContext,
-
     useContext,
-
     useEffect,
-
     useState
-
 } from "react";
 
 import {
-
     getProfile,
-
     login as loginService,
-
-    logout as logoutService
-
+    logout as logoutService,
+    register as registerService
 } from "../services/authService";
 
 const AuthContext = createContext();
 
-export function AuthProvider({
+export function AuthProvider({ children }) {
 
-    children
+    const [user, setUser] = useState(null);
 
-}) {
-
-    const [
-
-        user,
-
-        setUser
-
-    ] = useState(null);
-
-    const [
-
-        loading,
-
-        setLoading
-
-    ] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
 
-        const token = localStorage.getItem(
-
-            "access_token"
-
-        );
+        const token = localStorage.getItem("access_token");
 
         if (!token) {
 
@@ -62,15 +34,17 @@ export function AuthProvider({
 
         getProfile()
 
-            .then(setUser)
+            .then((profile) => {
+
+                setUser(profile);
+
+            })
 
             .catch(() => {
 
-                localStorage.removeItem(
+                localStorage.removeItem("access_token");
 
-                    "access_token"
-
-                );
+                localStorage.removeItem("refresh_token");
 
             })
 
@@ -120,6 +94,36 @@ export function AuthProvider({
 
     };
 
+    const register = async (
+
+        username,
+
+        email,
+
+        password
+
+    ) => {
+
+        await registerService(
+
+            username,
+
+            email,
+
+            password
+
+        );
+
+        await login(
+
+            email,
+
+            password
+
+        );
+
+    };
+
     const logout = async () => {
 
         try {
@@ -130,19 +134,13 @@ export function AuthProvider({
 
         catch {
 
+            // Ignore logout errors
+
         }
 
-        localStorage.removeItem(
+        localStorage.removeItem("access_token");
 
-            "access_token"
-
-        );
-
-        localStorage.removeItem(
-
-            "refresh_token"
-
-        );
+        localStorage.removeItem("refresh_token");
 
         setUser(null);
 
@@ -156,11 +154,13 @@ export function AuthProvider({
 
                 user,
 
+                loading,
+
                 login,
 
-                logout,
+                register,
 
-                loading,
+                logout,
 
                 isAuthenticated: !!user
 
@@ -168,11 +168,7 @@ export function AuthProvider({
 
         >
 
-            {
-
-                children
-
-            }
+            {children}
 
         </AuthContext.Provider>
 
@@ -182,8 +178,4 @@ export function AuthProvider({
 
 export const useAuth = () =>
 
-    useContext(
-
-        AuthContext
-
-    );
+    useContext(AuthContext);

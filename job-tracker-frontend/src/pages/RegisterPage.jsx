@@ -14,25 +14,34 @@ import {
     CardTitle
 } from "@/components/ui/card";
 
-function Login() {
+function RegisterPage() {
 
-    const { login } = useAuth();
+    const { register } = useAuth();
 
+    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
 
         e.preventDefault();
 
         setError("");
+        setLoading(true);
 
         try {
 
-            await login(
+            await register(
+
+                username,
+
                 email,
+
                 password
+
             );
 
         }
@@ -43,9 +52,15 @@ function Login() {
 
                 err.response?.data?.error ||
 
-                "Login failed"
+                "Registration failed"
 
             );
+
+        }
+
+        finally {
+
+            setLoading(false);
 
         }
 
@@ -61,13 +76,13 @@ function Login() {
 
                     <CardTitle className="text-3xl">
 
-                        Job Tracker
+                        Create Account
 
                     </CardTitle>
 
                     <CardDescription>
 
-                        Welcome back! Sign in to continue.
+                        Start tracking your job applications for free.
 
                     </CardDescription>
 
@@ -82,6 +97,38 @@ function Login() {
                         className="space-y-5"
 
                     >
+
+                        <div className="space-y-2">
+
+                            <label className="text-sm font-medium">
+
+                                Username
+
+                            </label>
+
+                            <Input
+
+                                type="text"
+
+                                placeholder="John Doe"
+
+                                value={username}
+
+                                onChange={(e) =>
+
+                                    setUsername(
+
+                                        e.target.value
+
+                                    )
+
+                                }
+
+                                required
+
+                            />
+
+                        </div>
 
                         <div className="space-y-2">
 
@@ -127,7 +174,7 @@ function Login() {
 
                                 type="password"
 
-                                placeholder="Enter your password"
+                                placeholder="Create a password"
 
                                 value={password}
 
@@ -171,9 +218,19 @@ function Login() {
 
                             className="w-full"
 
+                            disabled={loading}
+
                         >
 
-                            Sign In
+                            {
+
+                                loading
+
+                                    ? "Creating Account..."
+
+                                    : "Create Account"
+
+                            }
 
                         </Button>
 
@@ -183,19 +240,19 @@ function Login() {
 
                         <p className="text-sm text-slate-600">
 
-                            Don't have an account?
+                            Already have an account?
 
                         </p>
 
                         <Link
 
-                            to="/register"
+                            to="/login"
 
                             className="mt-2 inline-block font-medium text-blue-600 hover:underline"
 
                         >
 
-                            Create your free account →
+                            Sign In →
 
                         </Link>
 
@@ -211,4 +268,4 @@ function Login() {
 
 }
 
-export default Login;
+export default RegisterPage;

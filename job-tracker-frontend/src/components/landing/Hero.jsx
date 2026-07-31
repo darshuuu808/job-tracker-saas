@@ -4,7 +4,8 @@ import {
     Briefcase,
     Globe,
     BarChart3,
-    CheckCircle2
+    CheckCircle2,
+    LogIn
 } from "lucide-react";
 
 import { Link } from "react-router-dom";
@@ -21,6 +22,7 @@ function Hero() {
 
             <div className="mx-auto flex max-w-7xl flex-col items-center gap-16 px-6 py-24 lg:flex-row lg:justify-between lg:px-8">
 
+                {/* Left Side */}
                 <div className="max-w-2xl">
 
                     <span className="inline-flex items-center rounded-full border border-blue-200 bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-300">
@@ -42,22 +44,44 @@ function Hero() {
                         and instantly save LinkedIn jobs using our browser extension.
                     </p>
 
+                    {/* CTA Buttons */}
                     <div className="mt-10 flex flex-wrap gap-4">
 
+                        {/* New Users */}
                         <Button asChild size="lg" className="h-12 px-8">
-                            <Link to="/login">
+                            <Link to="/register">
                                 Get Started
                                 <ArrowRight className="ml-2 h-5 w-5" />
                             </Link>
                         </Button>
 
-                        <Button variant="outline" size="lg" className="h-12 px-8">
+                        {/* Existing Users */}
+                        <Button
+                            asChild
+                            variant="outline"
+                            size="lg"
+                            className="h-12 px-8"
+                        >
+                            <Link to="/login">
+                                <LogIn className="mr-2 h-5 w-5" />
+                                Sign In
+                            </Link>
+                        </Button>
+
+                        {/* Future Demo */}
+                        <Button
+                            variant="secondary"
+                            size="lg"
+                            className="h-12 px-8"
+                            disabled
+                        >
                             <PlayCircle className="mr-2 h-5 w-5" />
                             Live Demo
                         </Button>
 
                     </div>
 
+                    {/* Stats */}
                     <div className="mt-14 grid grid-cols-3 gap-6">
 
                         <div>
@@ -85,6 +109,7 @@ function Hero() {
 
                 </div>
 
+                {/* Right Side */}
                 <div className="w-full max-w-xl">
 
                     <div className="rounded-3xl border bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
