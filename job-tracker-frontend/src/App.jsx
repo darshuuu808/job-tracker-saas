@@ -5,6 +5,10 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 
 import SkipToContent from "./components/layout/SkipToContent";
 import ProtectedRoute from "./components/ProtectedRoute";
+import OfflineBanner from "./components/common/OfflineBanner";
+import InstallAppButton from "./components/common/InstallAppButton";
+
+import { Toaster } from "@/components/ui/sonner";
 
 const LandingPage = lazy(() => import("./pages/LandingPage"));
 const Login = lazy(() => import("./pages/Login"));
@@ -13,8 +17,6 @@ const Analytics = lazy(() => import("./pages/Analytics"));
 const Settings = lazy(() => import("./pages/Settings"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-
-import { Toaster } from "@/components/ui/sonner";
 
 function AppContent() {
     const { isAuthenticated, loading } = useAuth();
@@ -28,85 +30,93 @@ function AppContent() {
     }
 
     return (
-        <Suspense
-            fallback={
-                <div className="min-h-screen flex items-center justify-center">
-                    <h2 className="text-xl font-semibold">
-                        Loading...
-                    </h2>
-                </div>
-            }
-        >
-            <Routes>
+        <>
+            {/* Offline Banner */}
+            <OfflineBanner />
 
-                {/* Public Landing Page */}
-                <Route
-                    path="/"
-                    element={
-                        isAuthenticated
-                            ? <Navigate to="/dashboard" replace />
-                            : <LandingPage />
-                    }
-                />
+            {/* Install App Button */}
+            <InstallAppButton />
 
-                {/* Login */}
-                <Route
-                    path="/login"
-                    element={
-                        isAuthenticated
-                            ? <Navigate to="/dashboard" replace />
-                            : <Login />
-                    }
-                />
+            <Suspense
+                fallback={
+                    <div className="min-h-screen flex items-center justify-center">
+                        <h2 className="text-xl font-semibold">
+                            Loading...
+                        </h2>
+                    </div>
+                }
+            >
+                <Routes>
 
-                {/* Protected Dashboard */}
-                <Route
-                    path="/dashboard"
-                    element={
-                        <ProtectedRoute>
-                            <Dashboard />
-                        </ProtectedRoute>
-                    }
-                />
+                    {/* Landing Page */}
+                    <Route
+                        path="/"
+                        element={
+                            isAuthenticated
+                                ? <Navigate to="/dashboard" replace />
+                                : <LandingPage />
+                        }
+                    />
 
-                {/* Analytics */}
-                <Route
-                    path="/analytics"
-                    element={
-                        <ProtectedRoute>
-                            <Analytics />
-                        </ProtectedRoute>
-                    }
-                />
+                    {/* Login */}
+                    <Route
+                        path="/login"
+                        element={
+                            isAuthenticated
+                                ? <Navigate to="/dashboard" replace />
+                                : <Login />
+                        }
+                    />
 
-                {/* Settings */}
-                <Route
-                    path="/settings"
-                    element={
-                        <ProtectedRoute>
-                            <Settings />
-                        </ProtectedRoute>
-                    }
-                />
+                    {/* Dashboard */}
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <ProtectedRoute>
+                                <Dashboard />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                {/* Admin */}
-                <Route
-                    path="/admin"
-                    element={
-                        <ProtectedRoute adminOnly>
-                            <AdminDashboard />
-                        </ProtectedRoute>
-                    }
-                />
+                    {/* Analytics */}
+                    <Route
+                        path="/analytics"
+                        element={
+                            <ProtectedRoute>
+                                <Analytics />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                {/* 404 */}
-                <Route
-                    path="*"
-                    element={<NotFound />}
-                />
+                    {/* Settings */}
+                    <Route
+                        path="/settings"
+                        element={
+                            <ProtectedRoute>
+                                <Settings />
+                            </ProtectedRoute>
+                        }
+                    />
 
-            </Routes>
-        </Suspense>
+                    {/* Admin */}
+                    <Route
+                        path="/admin"
+                        element={
+                            <ProtectedRoute adminOnly>
+                                <AdminDashboard />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    {/* 404 */}
+                    <Route
+                        path="*"
+                        element={<NotFound />}
+                    />
+
+                </Routes>
+            </Suspense>
+        </>
     );
 }
 
@@ -120,7 +130,10 @@ export default function App() {
 
                 <AppContent />
 
-                <Toaster richColors />
+                <Toaster
+                    richColors
+                    position="top-right"
+                />
 
             </AuthProvider>
 
